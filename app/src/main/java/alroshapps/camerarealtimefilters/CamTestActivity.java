@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -28,7 +29,9 @@ import java.io.IOException;
  */
 public class CamTestActivity extends Activity {
     private static final String TAG = "CamTestActivity";
+
     Preview preview;
+    AugmentedView augmentedView;
     Button buttonClick;
     Camera camera;
     Activity act;
@@ -44,10 +47,18 @@ public class CamTestActivity extends Activity {
 
         setContentView(R.layout.main);
 
-        preview = new Preview(this, (SurfaceView)findViewById(R.id.surfaceView));
+        SurfaceView sv = (SurfaceView)findViewById(R.id.surfaceView); //instead of surfaceView create your own custom class that extends surface view blah blah lbah
+
+        preview = new Preview(this, sv);
         preview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         ((FrameLayout) findViewById(R.id.layout)).addView(preview);
         preview.setKeepScreenOn(true);
+
+        SurfaceView svTop = (SurfaceView)findViewById(R.id.surfaceViewTop);
+        svTop.setZOrderMediaOverlay(true);
+        augmentedView = new AugmentedView(this, svTop);
+        augmentedView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ((FrameLayout) findViewById(R.id.layout)).addView(augmentedView);
 
         preview.setOnClickListener(new View.OnClickListener() {
 
@@ -58,6 +69,7 @@ public class CamTestActivity extends Activity {
         });
 
         Toast.makeText(ctx, getString(R.string.take_photo_help), Toast.LENGTH_LONG).show();
+
 
         //		buttonClick = (Button) findViewById(R.id.btnCapture);
         //
@@ -86,6 +98,7 @@ public class CamTestActivity extends Activity {
     protected void onResume() {
         super.onResume();
         int numCams = Camera.getNumberOfCameras();
+
         if(numCams > 0){
             try{
                 camera = Camera.open(0);
@@ -148,7 +161,7 @@ public class CamTestActivity extends Activity {
             // Write to SD Card
             try {
                 File sdCard = Environment.getExternalStorageDirectory();
-                File dir = new File (sdCard.getAbsolutePath() + "/camtest");
+                File dir = new File (sdCard.getAbsolutePath() + "/CameraRealTimeFilters");
                 dir.mkdirs();
 
                 String fileName = String.format("%d.jpg", System.currentTimeMillis());

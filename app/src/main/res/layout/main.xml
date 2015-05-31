@@ -9,6 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <SurfaceView
+        android:id="@+id/surfaceViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <!-- <Button
         android:id="@+id/btnCapture"
         android:layout_width="wrap_content"
@@ -16,5 +21,16 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/round_button"
         android:text="@string/btn_capture" /> -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/information"
+        android:text="@string/information"
+        android:textStyle="bold"
+        android:textColor="#ff00ff"
+        android:background="#00ff00"
+        android:textColorHighlight="#000000"
+        android:textIsSelectable="true" />
 
 </FrameLayout>

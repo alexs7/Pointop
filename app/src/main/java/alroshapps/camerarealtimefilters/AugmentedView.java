@@ -5,14 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Camera;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.graphics.PixelFormat;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,51 +19,67 @@ import java.util.Random;
 /**
  * Created by alex on 31/05/15.
  */
-public class Preview extends ViewGroup implements SurfaceHolder.Callback {
+public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
     private final String TAG = "Preview";
 
     SurfaceView mSurfaceView;
     SurfaceHolder mHolder;
     Camera.Size mPreviewSize;
     List<Camera.Size> mSupportedPreviewSizes;
-    Camera mCamera;
+    //Camera mCamera;
 
-    Preview(Context context, SurfaceView sv) {
+    AugmentedView(Context context, SurfaceView sv) {
         super(context);
 
         mSurfaceView = sv;
 //        addView(mSurfaceView);
 
         mHolder = mSurfaceView.getHolder();
+        mHolder.setFormat(PixelFormat.TRANSPARENT);
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
     }
 
-    public void setCamera(Camera camera) {
-        mCamera = camera;
-        if (mCamera != null) {
-            mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
-            requestLayout();
+    private void tryDrawing(SurfaceHolder holder) {
+        Log.i(TAG, "Trying to draw...");
 
-            // get Camera parameters
-            Camera.Parameters params = mCamera.getParameters();
-
-            List<String> focusModes = params.getSupportedFocusModes();
-            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                // set the focus mode
-                params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                // set Camera parameters
-                mCamera.setParameters(params);
-            }
+        Canvas canvas = holder.lockCanvas();
+        if (canvas == null) {
+            Log.e(TAG, "Cannot draw onto the canvas as it's null");
+        } else {
+            drawMyStuff(canvas);
+            holder.unlockCanvasAndPost(canvas);
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas){
-
-        Log.w(this.getClass().getName(), "On Draw Called");
+    private void drawMyStuff(final Canvas canvas) {
+        Random random = new Random();
+        Log.i(TAG, "Drawing...");
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        canvas.drawPoint(120, 123, paint);
     }
+
+//    public void setCamera(Camera camera) {
+//        mCamera = camera;
+//        if (mCamera != null) {
+//            mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
+//            requestLayout();
+//
+//            // get Camera parameters
+//            Camera.Parameters params = mCamera.getParameters();
+//
+//            List<String> focusModes = params.getSupportedFocusModes();
+//            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+//                // set the focus mode
+//                params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+//                // set Camera parameters
+//                mCamera.setParameters(params);
+//            }
+//        }
+//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -77,7 +91,7 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
         setMeasuredDimension(width, height);
 
         if (mSupportedPreviewSizes != null) {
-            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
+            //mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
         }
     }
 
@@ -110,23 +124,23 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-
+        tryDrawing(holder);
         // The Surface has been created, acquire the camera and tell it where
         // to draw.
-        try {
-            if (mCamera != null) {
-                mCamera.setPreviewDisplay(holder);
-            }
-        } catch (IOException exception) {
-            Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
-        }
+//        try {
+//            if (mCamera != null) {
+//                mCamera.setPreviewDisplay(holder);
+//            }
+//        } catch (IOException exception) {
+//            Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
+//        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
         // Surface will be destroyed when we return, so stop the preview.
-        if (mCamera != null) {
-            mCamera.stopPreview();
-        }
+//        if (mCamera != null) {
+//            mCamera.stopPreview();
+//        }
     }
 
 
@@ -165,13 +179,13 @@ public class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 
-        if(mCamera != null) {
-            Camera.Parameters parameters = mCamera.getParameters();
-            parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-            requestLayout();
-
-            mCamera.setParameters(parameters);
-            mCamera.startPreview();
-        }
+//        if(mCamera != null) {
+//            Camera.Parameters parameters = mCamera.getParameters();
+//            parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
+//            requestLayout();
+//
+//            mCamera.setParameters(parameters);
+//            mCamera.startPreview();
+//        }
     }
 }
