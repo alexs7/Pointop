@@ -71,8 +71,6 @@ public class CamTestActivity extends Activity {
             }
         });
 
-
-
         Toast.makeText(ctx, getString(R.string.take_photo_help), Toast.LENGTH_LONG).show();
 
     }

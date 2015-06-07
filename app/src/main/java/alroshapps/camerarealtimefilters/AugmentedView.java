@@ -25,52 +25,35 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
     SurfaceView mSurfaceView;
     SurfaceHolder mHolder;
     Camera.Size mPreviewSize;
-    List<Camera.Size> mSupportedPreviewSizes;
-    //Camera mCamera;
+    Paint mPaint;
+
 
     AugmentedView(Context context, SurfaceView sv) {
         super(context);
 
         mSurfaceView = sv;
-//        addView(mSurfaceView);
-
         mHolder = mSurfaceView.getHolder();
         mHolder.setFormat(PixelFormat.TRANSPARENT);
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mPaint = new Paint();
 
     }
 
-//    private void tryDrawing(SurfaceHolder holder) {
-//        Log.i(TAG, "Trying to draw...");
-//
-//        Canvas canvas = holder.lockCanvas();
-//        if (canvas == null) {
-//            Log.e(TAG, "Cannot draw onto the canvas as it's null");
-//        } else {
-//            drawMyStuff(canvas);
-//            holder.unlockCanvasAndPost(canvas);
-//        }
-//    }
-
+    @Override
     protected void onDraw (Canvas canvas) {
-        Paint paint = new Paint();
+
         int w = getWidth();
         int h = getHeight();
-        int radius = Math.min(w,h)/2 - (int) (Math.random()*20);
+        int radius = 100; //Math.min(w,h)/2 - (int) (Math.random()*10);
 
-        paint.setARGB(255, 255, 0, 0);
-        canvas.drawCircle(w / 2, h / 2, radius, paint);
+        //mPaint.setARGB(255, 255, 0, 0);
+        canvas.drawCircle(w / 2, h / 2, radius, mPaint);
     }
 
-//    private void drawMyStuff(final Canvas canvas) {
-//        Random random = new Random();
-//        Log.i(TAG, "Drawing...");
-//        Paint paint = new Paint();
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setColor(Color.WHITE);
-//        canvas.drawPoint(120, 123, paint);
-//    }
+    public void setPaintColor(int r, int g,int b){
+        mPaint.setARGB(r,g,b,0);
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -80,10 +63,6 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         setMeasuredDimension(width, height);
-
-        if (mSupportedPreviewSizes != null) {
-            //mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
-        }
     }
 
     @Override
@@ -116,6 +95,8 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
 
     public void surfaceCreated(SurfaceHolder holder) {
         setWillNotDraw(false);
+        //set default paint color
+        setPaintColor(255, 255, 0);
         //tryDrawing(holder);
     }
 
@@ -124,40 +105,6 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
 //        if (mCamera != null) {
 //            mCamera.stopPreview();
 //        }
-    }
-
-
-    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
-        final double ASPECT_TOLERANCE = 0.1;
-        double targetRatio = (double) w / h;
-        if (sizes == null) return null;
-
-        Camera.Size optimalSize = null;
-        double minDiff = Double.MAX_VALUE;
-
-        int targetHeight = h;
-
-        // Try to find an size match aspect ratio and size
-        for (Camera.Size size : sizes) {
-            double ratio = (double) size.width / size.height;
-            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-            if (Math.abs(size.height - targetHeight) < minDiff) {
-                optimalSize = size;
-                minDiff = Math.abs(size.height - targetHeight);
-            }
-        }
-
-        // Cannot find the one match the aspect ratio, ignore the requirement
-        if (optimalSize == null) {
-            minDiff = Double.MAX_VALUE;
-            for (Camera.Size size : sizes) {
-                if (Math.abs(size.height - targetHeight) < minDiff) {
-                    optimalSize = size;
-                    minDiff = Math.abs(size.height - targetHeight);
-                }
-            }
-        }
-        return optimalSize;
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
