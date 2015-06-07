@@ -34,29 +34,32 @@ public class CamTestActivity extends Activity {
     AugmentedView augmentedView;
     Button buttonClick;
     Camera camera;
-    Activity act;
+    //Activity act;
     Context ctx;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ctx = this;
-        act = this;
+        //act = this;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.main);
 
-        SurfaceView sv = (SurfaceView)findViewById(R.id.surfaceView); //instead of surfaceView create your own custom class that extends surface view blah blah lbah
+        SurfaceView sv = (SurfaceView)findViewById(R.id.surfaceView);
+        SurfaceView svTop = (SurfaceView)findViewById(R.id.surfaceViewTop);
+        svTop.setZOrderMediaOverlay(true);
 
+        augmentedView = new AugmentedView(this, svTop);
         preview = new Preview(this, sv);
+        preview.setMAugmentedView(augmentedView);
+
         preview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         ((FrameLayout) findViewById(R.id.layout)).addView(preview);
         preview.setKeepScreenOn(true);
 
-        SurfaceView svTop = (SurfaceView)findViewById(R.id.surfaceViewTop);
-        svTop.setZOrderMediaOverlay(true);
-        augmentedView = new AugmentedView(this, svTop);
         augmentedView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         ((FrameLayout) findViewById(R.id.layout)).addView(augmentedView);
 
@@ -68,30 +71,10 @@ public class CamTestActivity extends Activity {
             }
         });
 
+
+
         Toast.makeText(ctx, getString(R.string.take_photo_help), Toast.LENGTH_LONG).show();
 
-
-        //		buttonClick = (Button) findViewById(R.id.btnCapture);
-        //
-        //		buttonClick.setOnClickListener(new OnClickListener() {
-        //			public void onClick(View v) {
-        ////				preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-        //				camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-        //			}
-        //		});
-        //
-        //		buttonClick.setOnLongClickListener(new OnLongClickListener(){
-        //			@Override
-        //			public boolean onLongClick(View arg0) {
-        //				camera.autoFocus(new AutoFocusCallback(){
-        //					@Override
-        //					public void onAutoFocus(boolean arg0, Camera arg1) {
-        //						//camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-        //					}
-        //				});
-        //				return true;
-        //			}
-        //		});
     }
 
     @Override

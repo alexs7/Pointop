@@ -41,44 +41,35 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
 
     }
 
-    private void tryDrawing(SurfaceHolder holder) {
-        Log.i(TAG, "Trying to draw...");
-
-        Canvas canvas = holder.lockCanvas();
-        if (canvas == null) {
-            Log.e(TAG, "Cannot draw onto the canvas as it's null");
-        } else {
-            drawMyStuff(canvas);
-            holder.unlockCanvasAndPost(canvas);
-        }
-    }
-
-    private void drawMyStuff(final Canvas canvas) {
-        Random random = new Random();
-        Log.i(TAG, "Drawing...");
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
-        canvas.drawPoint(120, 123, paint);
-    }
-
-//    public void setCamera(Camera camera) {
-//        mCamera = camera;
-//        if (mCamera != null) {
-//            mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
-//            requestLayout();
+//    private void tryDrawing(SurfaceHolder holder) {
+//        Log.i(TAG, "Trying to draw...");
 //
-//            // get Camera parameters
-//            Camera.Parameters params = mCamera.getParameters();
-//
-//            List<String> focusModes = params.getSupportedFocusModes();
-//            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-//                // set the focus mode
-//                params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-//                // set Camera parameters
-//                mCamera.setParameters(params);
-//            }
+//        Canvas canvas = holder.lockCanvas();
+//        if (canvas == null) {
+//            Log.e(TAG, "Cannot draw onto the canvas as it's null");
+//        } else {
+//            drawMyStuff(canvas);
+//            holder.unlockCanvasAndPost(canvas);
 //        }
+//    }
+
+    protected void onDraw (Canvas canvas) {
+        Paint paint = new Paint();
+        int w = getWidth();
+        int h = getHeight();
+        int radius = Math.min(w,h)/2 - (int) (Math.random()*20);
+
+        paint.setARGB(255, 255, 0, 0);
+        canvas.drawCircle(w / 2, h / 2, radius, paint);
+    }
+
+//    private void drawMyStuff(final Canvas canvas) {
+//        Random random = new Random();
+//        Log.i(TAG, "Drawing...");
+//        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.FILL);
+//        paint.setColor(Color.WHITE);
+//        canvas.drawPoint(120, 123, paint);
 //    }
 
     @Override
@@ -124,16 +115,8 @@ public class AugmentedView extends ViewGroup implements SurfaceHolder.Callback{
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        tryDrawing(holder);
-        // The Surface has been created, acquire the camera and tell it where
-        // to draw.
-//        try {
-//            if (mCamera != null) {
-//                mCamera.setPreviewDisplay(holder);
-//            }
-//        } catch (IOException exception) {
-//            Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
-//        }
+        setWillNotDraw(false);
+        //tryDrawing(holder);
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
