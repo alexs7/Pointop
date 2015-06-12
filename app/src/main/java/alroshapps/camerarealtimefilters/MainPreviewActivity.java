@@ -1,26 +1,18 @@
 package alroshapps.camerarealtimefilters;
 
 import java.io.IOException;
-import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
-import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
@@ -50,9 +42,12 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private CustomImageView mImageView;
 
     private Bitmap bmp;
-    private Bitmap bmp2;
+    private Bitmap bmpCopy;
 
-    private Paint paint;
+    private MatrixGenerator matrixGenerator;
+
+    private int processingFunction = 0;
+    private int maxFunctions = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +62,8 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
         mImageView = (CustomImageView) findViewById(R.id.imageview);
         mImageView.setTextureView(mTextureView);
+
+        matrixGenerator = new MatrixGenerator();
 
         Toast.makeText(this, getString(R.string.actions_help), Toast.LENGTH_LONG).show();
 
@@ -99,14 +96,9 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         // Invoked every time there's a new Camera preview frame
 
         bmp = mTextureView.getBitmap();
-        //Log.i("Height",Integer.toString(bmp.getHeight()));
-        //Log.i("Width", Integer.toString(bmp.getWidth()));
-        //mImageView.setCustomBitMap(bmp);
-        //mImageView.setImageBitmap(bmp);
-        //mImageView.invalidate();
 
         //edit bitmap here
-        bmp2 = bmp.copy(bmp.getConfig(),true);
+        bmpCopy = bmp.copy(bmp.getConfig(),true);
 
 //        for(int x=0;x<bmp.getWidth();x++){
 //            for(int y=0;y<bmp.getHeight();y++){
@@ -119,30 +111,34 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 //            }
 //        }
 
-//        Canvas canvas = new Canvas(bmp2);
-//
-//        paint.setColor(Color.GREEN);
-//        canvas.drawLine(0, 0, 10, 10, paint);//up
-//        canvas.drawLine(10, 20, 10, 02, paint);//left
-        mImageView.setImageBitmap(bmp2);
-        //mImageView.draw(canvas);
+        mImageView.setImageBitmap(bmpCopy);
 
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
+        switch(processingFunction){
+            case 0: processingFunction = 0;
+                ColorMatrixColorFilter filter0 = matrixGenerator.getInverseMatrixFilter();
+                mImageView.setColorFilter(filter0);
+                break;
+            case 1: processingFunction = 1;
+                ColorMatrixColorFilter filter1 = matrixGenerator.getBlackAndWhiteMatrix();
+                mImageView.setColorFilter(filter1);
+                break;
+        }
+    }
 
-        float m = 255f;
-        float t = -255*1.2f;
-        ColorMatrix threshold = new ColorMatrix(new float[] {
-                m, 0, 0, 1, t,
-                0, m, 0, 1, t,
-                0, 0, m, 1, t,
-                0, 0, 0, 1, 0
-        });
+    public void previousFunction(View v){
+        Log.i("processingFunction", Integer.toString(processingFunction));
+        if(processingFunction !=0) {
+            processingFunction -= 1;
+        }else{
+            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
+        }
+    }
 
-// Convert to grayscale, then scale and clamp
-        colorMatrix.postConcat(threshold);
-
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        mImageView.setColorFilter(filter);
+    public void nextFunction(View v){
+        if(processingFunction != maxFunctions) {
+            processingFunction += 1;
+        }else{
+            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
+        }
     }
 }

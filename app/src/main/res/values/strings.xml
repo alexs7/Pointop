@@ -12,5 +12,6 @@
     <string name="take_photo_help">Touch anywhere on screen to take picture</string>
     <string name="information">Information</string>
     <string name="actions_help">Navigate Left and Right for different filters</string>
+    <string name="funtionLimitWarning">Reached Function Limit!</string>
 
 </resources>
