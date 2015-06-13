@@ -45,9 +45,10 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private Bitmap bmpCopy;
 
     private MatrixGenerator matrixGenerator;
+    private BitmapProcessor bitmapProcessor;
 
     private int processingFunction = 0;
-    private int maxFunctions = 1;
+    private int maxFunctions = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         mImageView.setTextureView(mTextureView);
 
         matrixGenerator = new MatrixGenerator();
+        bitmapProcessor = new BitmapProcessor();
 
         Toast.makeText(this, getString(R.string.actions_help), Toast.LENGTH_LONG).show();
 
@@ -100,33 +102,34 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         //edit bitmap here
         bmpCopy = bmp.copy(bmp.getConfig(),true);
 
-//        for(int x=0;x<bmp.getWidth();x++){
-//            for(int y=0;y<bmp.getHeight();y++){
-//                //Log.i("Pixel RGB (Int)", Integer.toString(bmp.getPixel(x,y)));
-//                if(bmp.getPixel(x,y) < -8388608){
-//                    bmp2.setPixel(x,y,Color.WHITE);
-//                }else{
-//                    bmp2.setPixel(x,y,Color.BLACK);
-//                }
-//            }
-//        }
-
-        mImageView.setImageBitmap(bmpCopy);
-
         switch(processingFunction){
             case 0: processingFunction = 0;
                 ColorMatrixColorFilter filter0 = matrixGenerator.getInverseMatrixFilter();
                 mImageView.setColorFilter(filter0);
+                mImageView.setImageBitmap(bmpCopy);
                 break;
             case 1: processingFunction = 1;
                 ColorMatrixColorFilter filter1 = matrixGenerator.getBlackAndWhiteMatrix();
                 mImageView.setColorFilter(filter1);
+                mImageView.setImageBitmap(bmpCopy);
                 break;
+            case 2: processingFunction = 2;
+                mImageView.clearColorFilter();
+                mImageView.setImageBitmap(bmpCopy);
+                break;
+            case 3: processingFunction = 3;
+                ColorMatrixColorFilter filter2 = matrixGenerator.getRandomMatrix();
+                mImageView.setColorFilter(filter2);
+                mImageView.setImageBitmap(bmpCopy);
+                break;
+            case 4: processingFunction = 4;
+                Bitmap processedBmp = bitmapProcessor.processBmp(bmp,bmpCopy);
+                mImageView.clearColorFilter();
+                mImageView.setImageBitmap(processedBmp);
         }
     }
 
     public void previousFunction(View v){
-        Log.i("processingFunction", Integer.toString(processingFunction));
         if(processingFunction !=0) {
             processingFunction -= 1;
         }else{
