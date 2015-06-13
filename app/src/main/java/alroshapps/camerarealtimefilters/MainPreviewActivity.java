@@ -1,7 +1,6 @@
 package alroshapps.camerarealtimefilters;
 
 import java.io.IOException;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrixColorFilter;
@@ -14,28 +13,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.renderscript.*;
 
-/**
- * Demonstrates the variable performance (exec. time) of TextureView.getBitmap(Bitmap).
- * The exec. time is logged and also printed on screen.
- *
- * Depending on unknown circumstances the getBitmap(Bitmap) function runs slowly most of
- * the time, dropping its performance for about 1/3, compared to when it runs fast.
- *
- *  * Tested on:
- * - Nexus 7 (4.2.2)
- * - Galaxy Nexus (4.2.2)
- *
- * Other problems:
- * getBitmap() appears to take too much time: on the Nexus 7 it is at least 15ms ~ 20ms.
- * However, drawing the resulting Bitmap only takes 7 ms.
- *
- *
- * Sample adapted from http://developer.android.com/reference/android/view/TextureView.html
- *
- * @author Rafael Sierra
- *
- */
 public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
     private TextureView mTextureView;
