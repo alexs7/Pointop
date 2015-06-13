@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.renderscript.*;
 
 public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
@@ -26,7 +25,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private MatrixGenerator matrixGenerator;
     private BitmapProcessor bitmapProcessor;
 
-    private int processingFunction = 0;
+    private int processingFunction = 0; //should be zero
     private int maxFunctions = 4;
 
     @Override
@@ -44,7 +43,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         mImageView.setTextureView(mTextureView);
 
         matrixGenerator = new MatrixGenerator();
-        bitmapProcessor = new BitmapProcessor();
+        bitmapProcessor = new BitmapProcessor(this);
 
         Toast.makeText(this, getString(R.string.actions_help), Toast.LENGTH_LONG).show();
 
