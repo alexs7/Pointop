@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="#c0c0c0"
         android:layout_weight="1">
 
         <LinearLayout
@@ -30,20 +31,29 @@
                 android:layout_weight="1"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
-                android:weightSum="2">
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <TextView android:id="@+id/informationField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:background="#ffffff"
+                    android:layout_weight="1" />
 
                 <Button android:id="@+id/upbutton"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Left"
+                    android:text="@string/up_button_text"
                     android:onClick="previousFunction"/>
 
                 <Button android:id="@+id/downbutton"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Right"
+                    android:text="@string/down_button_text"
                     android:onClick="nextFunction"/>
 
             </LinearLayout>

@@ -12,12 +12,14 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
     private TextureView mTextureView;
     private CustomImageView mImageView;
+    private TextView informationView;
 
     private Bitmap bmp;
     private Bitmap bmpCopy;
@@ -44,6 +46,8 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
         matrixGenerator = new MatrixGenerator();
         bitmapProcessor = new BitmapProcessor(this);
+
+        informationView = (TextView)findViewById(R.id.informationField);
 
         Toast.makeText(this, getString(R.string.actions_help), Toast.LENGTH_LONG).show();
 
@@ -85,25 +89,31 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 ColorMatrixColorFilter filter0 = matrixGenerator.getInverseMatrixFilter();
                 mImageView.setColorFilter(filter0);
                 mImageView.setImageBitmap(bmpCopy);
+                informationView.setText(getString(R.string.inverseInfo));
                 break;
             case 1: processingFunction = 1;
                 ColorMatrixColorFilter filter1 = matrixGenerator.getBlackAndWhiteMatrix();
                 mImageView.setColorFilter(filter1);
                 mImageView.setImageBitmap(bmpCopy);
+                informationView.setText(getString(R.string.blackAndWhite));
                 break;
             case 2: processingFunction = 2;
                 mImageView.clearColorFilter();
                 mImageView.setImageBitmap(bmpCopy);
+                informationView.setText(getString(R.string.defaultMode));
                 break;
             case 3: processingFunction = 3;
                 ColorMatrixColorFilter filter2 = matrixGenerator.getRandomMatrix();
                 mImageView.setColorFilter(filter2);
                 mImageView.setImageBitmap(bmpCopy);
+                informationView.setText(getString(R.string.randomValue));
                 break;
             case 4: processingFunction = 4;
                 Bitmap processedBmp = bitmapProcessor.processBmp(bmp,bmpCopy);
                 mImageView.clearColorFilter();
                 mImageView.setImageBitmap(processedBmp);
+                informationView.setText(getString(R.string.renderScript));
+                break;
         }
     }
 

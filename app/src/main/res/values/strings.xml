@@ -13,5 +13,12 @@
     <string name="information">Information</string>
     <string name="actions_help">Navigate Left and Right for different filters</string>
     <string name="funtionLimitWarning">Reached Function Limit!</string>
+    <string name="down_button_text">Down</string>
+    <string name="up_button_text">Up</string>
+    <string name="inverseInfo">Inverse Filter</string>
+    <string name="blackAndWhite">Black and White Matrix</string>
+    <string name="defaultMode">Default Mode</string>
+    <string name="randomValue">Random Matrix Filter</string>
+    <string name="renderScript">RenderScript</string>
 
 </resources>

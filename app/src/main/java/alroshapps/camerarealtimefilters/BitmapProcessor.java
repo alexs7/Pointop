@@ -35,24 +35,11 @@ public class BitmapProcessor {
 //        }
         pixelCalcScriptWrapper.setInAllocation(bmp);
         pixelCalcScriptWrapper.setOutAllocation(bmpCopy);
+        pixelCalcScriptWrapper.setScriptWidth(bmp.getWidth());
+        pixelCalcScriptWrapper.setScriptHeight(bmp.getHeight());
         pixelCalcScriptWrapper.forEach_root();
 
         return bmpCopy;
     };
 
-    private int[] pixelToRGB(int pixel) {
-        int r = (pixel)&0xFF;
-        int g = (pixel>>8)&0xFF;
-        int b = (pixel>>16)&0xFF;
-        int a = (pixel>>24)&0xFF;
-        return new int[] {r,g,b,a};
-    };
-
-    private int RGBToPixel(int[] argb){
-        int a = argb[3];
-        int r = argb[0];
-        int g = argb[1];
-        int b = argb[2];
-        return Color.argb(a,r,g,b);
-    };
 }
