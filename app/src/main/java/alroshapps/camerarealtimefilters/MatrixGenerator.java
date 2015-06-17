@@ -4,10 +4,14 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.util.Log;
 
+import java.util.Random;
+
 /**
  * Created by alex on 12/06/15.
  */
 public class MatrixGenerator {
+
+    private Random randomGen = new Random();
 
     public MatrixGenerator(){}
 
@@ -43,10 +47,14 @@ public class MatrixGenerator {
     };
 
     public ColorMatrixColorFilter getRandomMatrix() {
+        float r = randomGen.nextFloat();
+        float g = randomGen.nextFloat();
+        float b = randomGen.nextFloat();
+
         ColorMatrix inverse = new ColorMatrix(new float[] {
-                1,  0, 0, 0, 0,
-                0,  0, 0, 0, 0,
-                0,  0, 0, 0, 0,
+                r,  0, 0, 0, 0,
+                0,  g, 0, 0, 0,
+                0,  0, b, 0, 0,
                 0,  0, 0, 1, 0
         });
 

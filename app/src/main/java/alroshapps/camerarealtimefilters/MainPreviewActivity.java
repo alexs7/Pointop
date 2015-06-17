@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
+    private int currentCamera;
     private TextureView mTextureView;
     private CustomImageView mImageView;
     private TextView informationView;
@@ -39,7 +40,33 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         setContentView(R.layout.main_layout);
 
         mTextureView = (TextureView) findViewById(R.id.textureview);
-        mTextureView.setSurfaceTextureListener(this);
+        mTextureView.setSurfaceTextureListener(this); //assigns all the listeners of this class to that mTextureView
+        mTextureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCamera.stopPreview();
+                mCamera.release();
+
+                if(currentCamera == Camera.CameraInfo.CAMERA_FACING_BACK){
+                    mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    currentCamera = Camera.CameraInfo.CAMERA_FACING_FRONT;
+                }else{
+                    mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+                    currentCamera = Camera.CameraInfo.CAMERA_FACING_BACK;
+                };
+
+                Camera.Parameters parameters = mCamera.getParameters();
+                //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                mCamera.setParameters(parameters);
+
+                try {
+                    mCamera.setPreviewTexture(mTextureView.getSurfaceTexture());
+                    mCamera.startPreview();
+                } catch (IOException ioe) {
+                    // Something bad happened
+                }
+            }
+        });
 
         mImageView = (CustomImageView) findViewById(R.id.imageview);
         mImageView.setTextureView(mTextureView);
@@ -54,8 +81,11 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     }
 
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        mCamera = Camera.open();
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        currentCamera = Camera.CameraInfo.CAMERA_FACING_FRONT;
+
         Camera.Parameters parameters = mCamera.getParameters();
+        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         mCamera.setParameters(parameters);
 
         try {
@@ -98,15 +128,15 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 informationView.setText(getString(R.string.blackAndWhite));
                 break;
             case 2: processingFunction = 2;
-                mImageView.clearColorFilter();
-                mImageView.setImageBitmap(bmpCopy);
-                informationView.setText(getString(R.string.defaultMode));
-                break;
-            case 3: processingFunction = 3;
                 ColorMatrixColorFilter filter2 = matrixGenerator.getRandomMatrix();
                 mImageView.setColorFilter(filter2);
                 mImageView.setImageBitmap(bmpCopy);
                 informationView.setText(getString(R.string.randomValue));
+                break;
+            case 3: processingFunction = 3;
+                mImageView.clearColorFilter();
+                mImageView.setImageBitmap(bmpCopy);
+                informationView.setText(getString(R.string.defaultMode));
                 break;
             case 4: processingFunction = 4;
                 Bitmap processedBmp = bitmapProcessor.processBmp(bmp,bmpCopy);
@@ -132,4 +162,5 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
             Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
         }
     }
+
 }

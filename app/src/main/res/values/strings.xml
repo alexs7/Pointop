@@ -18,7 +18,7 @@
     <string name="inverseInfo">Inverse Filter</string>
     <string name="blackAndWhite">Black and White Matrix</string>
     <string name="defaultMode">Default Mode</string>
-    <string name="randomValue">Random Matrix Filter</string>
+    <string name="randomValue">Random Matrix Filter (Disco Mode)</string>
     <string name="renderScript">RenderScript</string>
 
 </resources>
