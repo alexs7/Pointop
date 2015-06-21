@@ -24,12 +24,12 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
     private Bitmap bmp;
     private Bitmap bmpCopy;
+    private Bitmap processedBmp;
 
     private MatrixGenerator matrixGenerator;
     private BitmapProcessor bitmapProcessor;
 
     private int processingFunction = 0; //should be zero
-    private int maxFunctions = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
                 Camera.Parameters parameters = mCamera.getParameters();
                 //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 mCamera.setParameters(parameters);
 
                 try {
@@ -81,11 +82,12 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     }
 
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
-        currentCamera = Camera.CameraInfo.CAMERA_FACING_FRONT;
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        currentCamera = Camera.CameraInfo.CAMERA_FACING_BACK;
 
         Camera.Parameters parameters = mCamera.getParameters();
         //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         mCamera.setParameters(parameters);
 
         try {
@@ -139,10 +141,16 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 informationView.setText(getString(R.string.defaultMode));
                 break;
             case 4: processingFunction = 4;
-                Bitmap processedBmp = bitmapProcessor.processBmp(bmp,bmpCopy);
+                processedBmp = bitmapProcessor.processBmpAvgOper(bmp, bmpCopy);
                 mImageView.clearColorFilter();
                 mImageView.setImageBitmap(processedBmp);
-                informationView.setText(getString(R.string.renderScript));
+                informationView.setText(getString(R.string.averageOperator));
+                break;
+            case 5: processingFunction = 5;
+                processedBmp = bitmapProcessor.processBmpEdgeDetect(bmp, bmpCopy);
+                mImageView.clearColorFilter();
+                mImageView.setImageBitmap(processedBmp);
+                informationView.setText(getString(R.string.edgeDetection));
                 break;
         }
     }

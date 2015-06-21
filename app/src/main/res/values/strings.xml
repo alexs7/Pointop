@@ -20,5 +20,6 @@
     <string name="defaultMode">Default Mode</string>
     <string name="randomValue">Random Matrix Filter (Disco Mode)</string>
     <string name="renderScript">RenderScript</string>
+    <string name="edgeDetection">Edge Detection</string>
 
 </resources>

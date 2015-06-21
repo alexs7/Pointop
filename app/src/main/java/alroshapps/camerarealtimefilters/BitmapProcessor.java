@@ -2,8 +2,6 @@ package alroshapps.camerarealtimefilters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.util.Log;
 
 /**
  * Created by alex on 13/06/15.
@@ -11,14 +9,16 @@ import android.util.Log;
 public class BitmapProcessor {
 
     private Context ctx;
-    private PixelCalcScriptWrapper pixelCalcScriptWrapper;
+    private RenderScriptEdgeDetectWrapper renderScriptEdgeDetectWrapper;
+    private RenderScriptAvgOperWrapper renderScriptAvgOperWrapper;
 
     public BitmapProcessor(Context context){
         ctx = context;
-        pixelCalcScriptWrapper = new PixelCalcScriptWrapper(ctx);
+        renderScriptEdgeDetectWrapper = new RenderScriptEdgeDetectWrapper(ctx);
+        renderScriptAvgOperWrapper = new RenderScriptAvgOperWrapper(ctx);
     }
 
-    public Bitmap processBmp(Bitmap bmp, Bitmap bmpCopy) {
+    public Bitmap processBmpAvgOper(Bitmap bmp, Bitmap bmpCopy) {
 //        for(int x=0;x<bmp.getWidth();x++){
 //            for(int y=0;y<bmp.getHeight();y++){
 //                //pixelRGBArray = pixelToRGB(bmp.getPixel(x, y));
@@ -33,13 +33,25 @@ public class BitmapProcessor {
 //                }
 //            }
 //        }
-        pixelCalcScriptWrapper.setInAllocation(bmp);
-        pixelCalcScriptWrapper.setOutAllocation(bmpCopy);
-        pixelCalcScriptWrapper.setScriptWidth(bmp.getWidth());
-        pixelCalcScriptWrapper.setScriptHeight(bmp.getHeight());
-        pixelCalcScriptWrapper.forEach_root();
+        renderScriptAvgOperWrapper.setInAllocation(bmp);
+        renderScriptAvgOperWrapper.setOutAllocation(bmpCopy);
+        renderScriptAvgOperWrapper.setScriptWidth(bmp.getWidth());
+        renderScriptAvgOperWrapper.setScriptHeight(bmp.getHeight());
+        renderScriptAvgOperWrapper.forEach_root();
 
         return bmpCopy;
     };
+
+    public Bitmap processBmpEdgeDetect(Bitmap bmp, Bitmap bmpCopy) {
+
+        //type will be used for different edge detection algorithms
+        renderScriptEdgeDetectWrapper.setInAllocation(bmp);
+        renderScriptEdgeDetectWrapper.setOutAllocation(bmpCopy);
+        renderScriptEdgeDetectWrapper.setScriptWidth(bmp.getWidth());
+        renderScriptEdgeDetectWrapper.setScriptHeight(bmp.getHeight());
+        renderScriptEdgeDetectWrapper.forEach_root();
+
+        return bmpCopy;
+    }
 
 }

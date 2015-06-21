@@ -7,21 +7,24 @@ import android.support.v8.renderscript.*;
 /**
  * Created by alex on 13/06/15.
  */
-public class PixelCalcScriptWrapper {
+public class RenderScriptEdgeDetectWrapper {
 
     private Allocation inAllocation;
     private Allocation outAllocation;
-    RenderScript rs;
-    ScriptC_pixelsCalc script;
+    private RenderScript rs;
+    private ScriptC_edgedetect edgeDetectScript;
+    private Context ctx;
 
-    public PixelCalcScriptWrapper(Context context){
-        rs = RenderScript.create(context);
-        script = new ScriptC_pixelsCalc(rs, context.getResources(), R.raw.pixelscalc);
+
+    public RenderScriptEdgeDetectWrapper(Context context){
+        ctx = context;
+        rs = RenderScript.create(ctx);
+        edgeDetectScript = new ScriptC_edgedetect(rs, ctx.getResources(), R.raw.edgedetect);
     };
 
     public void setInAllocation(Bitmap bmp){
         inAllocation = Allocation.createFromBitmap(rs,bmp);
-        script.set_inPixels(inAllocation);
+        edgeDetectScript.set_inPixels(inAllocation);
     };
 
     public void setOutAllocation(Bitmap bmp){
@@ -29,14 +32,14 @@ public class PixelCalcScriptWrapper {
     };
 
     public void setScriptWidth(int scriptWidth) {
-        script.set_width(scriptWidth);
+        edgeDetectScript.set_width(scriptWidth);
     }
 
     public void setScriptHeight(int scriptHeight) {
-        script.set_height(scriptHeight);
+        edgeDetectScript.set_height(scriptHeight);
     }
 
     public void forEach_root(){
-        script.forEach_root(inAllocation,outAllocation);
+        edgeDetectScript.forEach_root(inAllocation,outAllocation);
     }
 }
