@@ -15,6 +15,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private CustomImageView mImageView;
     private TextView informationView;
     private ListView lvChoices;
+    private GridView gridView;
 
     private Bitmap bmp;
     private Bitmap bmpCopy;
@@ -35,7 +38,6 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private BitmapProcessor bitmapProcessor;
 
     private int processingFunction = 0; //should be zero
-    private float angle = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,14 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
         setContentView(R.layout.main_layout);
 
+        gridView = (GridView) findViewById(R.id.optionBtns);
+        gridView.setAdapter(new ButtonAdapter(this));
+
         lvChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
         lvChoices.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.list_of_image_processing_choices)));
+
         lvChoices.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -174,7 +180,8 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 informationView.setText(getString(R.string.edgeDetection));
                 break;
             case 6: processingFunction = 6;
-                Matrix rotationMatrix = MatrixGenerator.getRotationMatrix(angle);
+                mImageView.clearColorFilter();
+                Matrix rotationMatrix = MatrixGenerator.getRotationMatrix(AngleCalculator.getAngle());
                 Bitmap rotatedBitMap = Bitmap.createBitmap(bmpCopy,0,0,bmpCopy.getWidth(),bmpCopy.getHeight(),rotationMatrix,true);
                 mImageView.setImageBitmap(rotatedBitMap);
                 informationView.setText(getString(R.string.rotationMatrix));
