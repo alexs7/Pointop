@@ -18,6 +18,13 @@ public class BitmapProcessor {
         renderScriptAvgOperWrapper = new RenderScriptAvgOperWrapper(ctx);
     }
 
+    /*
+        Any operations that work on the bitmaps, change the bitmap. Bitmaps behave as a static
+        object. They do not need to be returned in the methods, just left the return method
+        just in case. So for example processBmpAvgOper although it returns a bitmap it is not used,
+        as it edits one, and that is enough
+     */
+
     public Bitmap processBmpAvgOper(Bitmap bmp, Bitmap bmpCopy) {
 //        for(int x=0;x<bmp.getWidth();x++){
 //            for(int y=0;y<bmp.getHeight();y++){

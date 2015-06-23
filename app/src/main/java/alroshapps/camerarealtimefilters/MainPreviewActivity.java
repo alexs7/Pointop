@@ -4,6 +4,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -29,12 +30,12 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
     private Bitmap bmp;
     private Bitmap bmpCopy;
-    private Bitmap processedBmp;
 
     private MatrixGenerator matrixGenerator;
     private BitmapProcessor bitmapProcessor;
 
     private int processingFunction = 0; //should be zero
+    private float angle = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         mTextureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                mCamera.setPreviewCallback(null);
                 mCamera.stopPreview();
                 mCamera.release();
 
@@ -104,10 +107,11 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
         Camera.Parameters parameters = mCamera.getParameters();
         //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        //parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         mCamera.setParameters(parameters);
 
         try {
+            mCamera.setPreviewCallback(null);
             mCamera.setPreviewTexture(surface);
             mCamera.startPreview();
         } catch (IOException ioe) {
@@ -158,16 +162,22 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 informationView.setText(getString(R.string.defaultMode));
                 break;
             case 4: processingFunction = 4;
-                processedBmp = bitmapProcessor.processBmpAvgOper(bmp, bmpCopy);
+                bitmapProcessor.processBmpAvgOper(bmp, bmpCopy);
                 mImageView.clearColorFilter();
-                mImageView.setImageBitmap(processedBmp);
+                mImageView.setImageBitmap(bmpCopy);
                 informationView.setText(getString(R.string.averageOperator));
                 break;
             case 5: processingFunction = 5;
-                processedBmp = bitmapProcessor.processBmpEdgeDetect(bmp, bmpCopy);
+                bitmapProcessor.processBmpEdgeDetect(bmp, bmpCopy);
                 mImageView.clearColorFilter();
-                mImageView.setImageBitmap(processedBmp);
+                mImageView.setImageBitmap(bmpCopy);
                 informationView.setText(getString(R.string.edgeDetection));
+                break;
+            case 6: processingFunction = 6;
+                Matrix rotationMatrix = MatrixGenerator.getRotationMatrix(angle);
+                Bitmap rotatedBitMap = Bitmap.createBitmap(bmpCopy,0,0,bmpCopy.getWidth(),bmpCopy.getHeight(),rotationMatrix,true);
+                mImageView.setImageBitmap(rotatedBitMap);
+                informationView.setText(getString(R.string.rotationMatrix));
                 break;
         }
     }

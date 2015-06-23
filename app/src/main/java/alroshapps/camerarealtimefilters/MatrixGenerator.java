@@ -2,6 +2,7 @@ package alroshapps.camerarealtimefilters;
 
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import java.util.Random;
@@ -60,5 +61,11 @@ public class MatrixGenerator {
 
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(inverse);
         return filter;
+    };
+
+    public static Matrix getRotationMatrix(float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return matrix;
     };
 }

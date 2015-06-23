@@ -22,5 +22,6 @@
     <string name="renderScript">RenderScript</string>
     <string name="edgeDetection">Edge Detection (Renderscript)</string>
     <string name="averageOperator">Average Operator (Renderscript)</string>
+    <string name="rotationMatrix">Rotation Matrix</string>
 
 </resources>
