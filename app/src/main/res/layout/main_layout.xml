@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="#c0c0c0"
+        android:background="@color/DeepSkyBlue"
         android:layout_weight="1">
 
         <LinearLayout
@@ -39,22 +39,30 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="18sp"
-                    android:background="#ffffff"      
-                    android:layout_weight="1" />
+                    android:textColor="@color/White"
+                    android:background="@color/DeepSkyBlue"
+                    android:layout_weight="2" />
 
-                <Button android:id="@+id/upbutton"
+                <!--<Button android:id="@+id/upbutton"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/up_button_text"-->
+                    <!--android:onClick="previousFunction"/>-->
+
+                <!--<Button android:id="@+id/downbutton"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/down_button_text"-->
+                    <!--android:onClick="nextFunction"/>-->
+
+                <ListView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/Black"
                     android:layout_weight="1"
-                    android:text="@string/up_button_text"
-                    android:onClick="previousFunction"/>
-
-                <Button android:id="@+id/downbutton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/down_button_text"
-                    android:onClick="nextFunction"/>
+                    android:id="@+id/lvImageProcessChoices" />
 
             </LinearLayout>
         </LinearLayout>

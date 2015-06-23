@@ -12,15 +12,20 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
     private int currentCamera;
+
     private TextureView mTextureView;
     private CustomImageView mImageView;
     private TextView informationView;
+    private ListView lvChoices;
 
     private Bitmap bmp;
     private Bitmap bmpCopy;
@@ -38,6 +43,18 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.main_layout);
+
+        lvChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
+        lvChoices.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.list_of_image_processing_choices)));
+        lvChoices.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+              //Toast.makeText(view.getContext(), Long.toString(id), Toast.LENGTH_LONG).show();
+                processingFunction = (int) parent.getItemIdAtPosition(position);
+            };
+        });
 
         mTextureView = (TextureView) findViewById(R.id.textureview);
         mTextureView.setSurfaceTextureListener(this); //assigns all the listeners of this class to that mTextureView
@@ -155,20 +172,20 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         }
     }
 
-    public void previousFunction(View v){
-        if(processingFunction !=0) {
-            processingFunction -= 1;
-        }else{
-            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void nextFunction(View v){
-        if(processingFunction != maxFunctions) {
-            processingFunction += 1;
-        }else{
-            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    public void previousFunction(View v){
+//        if(processingFunction !=0) {
+//            processingFunction -= 1;
+//        }else{
+//            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    public void nextFunction(View v){
+//        if(processingFunction != maxFunctions) {
+//            processingFunction += 1;
+//        }else{
+//            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 }
