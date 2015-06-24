@@ -11,7 +11,7 @@
     <string name="camera_not_found">No camera harware found</string>
     <string name="take_photo_help">Touch anywhere on screen to take picture</string>
     <string name="information">Information</string>
-    <string name="actions_help">Navigate Left and Right for different filters</string>
+    <string name="actions_help">Scroll through for different effects</string>
     <string name="funtionLimitWarning">Reached Function Limit!</string>
     <string name="down_button_text">Down</string>
     <string name="up_button_text">Up</string>
