@@ -63,7 +63,7 @@ public class MatrixGenerator {
         return filter;
     };
 
-    public static Matrix getRotationMatrix(float angle) {
+    public Matrix getRotationMatrix(float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return matrix;

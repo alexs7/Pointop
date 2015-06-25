@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainPreviewActivity extends Activity implements TextureView.SurfaceTextureListener {
+public class LiveCameraActivity extends Activity implements TextureView.SurfaceTextureListener {
     private Camera mCamera;
     private int currentCamera;
 
@@ -37,7 +37,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
     private MatrixGenerator matrixGenerator;
     private BitmapProcessor bitmapProcessor;
 
-    private int processingFunction = 0; //should be zero
+    private static int processingFunction = 0; //should be zero
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +127,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
 
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
         // Ignored, Camera does all the work for us
+        System.out.println("onSurfaceTextureSizeChanged");
     }
 
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
@@ -139,7 +140,6 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         // Invoked every time there's a new Camera preview frame
 
         bmp = mTextureView.getBitmap();
-
         //edit bitmap here
         bmpCopy = bmp.copy(bmp.getConfig(),true);
 
@@ -181,7 +181,7 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
                 break;
             case 6: processingFunction = 6;
                 mImageView.clearColorFilter();
-                Matrix rotationMatrix = MatrixGenerator.getRotationMatrix(AngleCalculator.getAngle());
+                Matrix rotationMatrix = matrixGenerator.getRotationMatrix(AngleCalculator.getAngle());
                 Bitmap rotatedBitMap = Bitmap.createBitmap(bmpCopy,0,0,bmpCopy.getWidth(),bmpCopy.getHeight(),rotationMatrix,true);
                 mImageView.setImageBitmap(rotatedBitMap);
                 informationView.setText(getString(R.string.rotationMatrix));
@@ -189,20 +189,11 @@ public class MainPreviewActivity extends Activity implements TextureView.Surface
         }
     }
 
-//    public void previousFunction(View v){
-//        if(processingFunction !=0) {
-//            processingFunction -= 1;
-//        }else{
-//            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    public void nextFunction(View v){
-//        if(processingFunction != maxFunctions) {
-//            processingFunction += 1;
-//        }else{
-//            Toast.makeText(this, getString(R.string.funtionLimitWarning), Toast.LENGTH_SHORT).show();
-//        }
-//    }
+    public static int getProcessingFunction() {
+        return processingFunction;
+    }
 
+    public static void setProcessingFunction(int arg) {
+        processingFunction = arg;
+    }
 }

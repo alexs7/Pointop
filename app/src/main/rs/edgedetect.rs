@@ -4,14 +4,14 @@
 rs_allocation inPixels;
 int height;
 int width;
-int threeBythree[];
 
 void root(const uchar4 *in, uchar4 *out, uint32_t x, uint32_t y) {
     float3 pixel = convert_float4(in[0]).rgb;
 
-    if(x==0 || x==239 || y==0 || y==269){
-        pixel.rb = 0;
-        pixel.g = 255;
+    if(x==0 || x==width || y==0 || y==height){
+        pixel.r = 0;
+        pixel.g = 191;
+        pixel.b = 255;
     }else{ //do image processing here
 
         float3 pixelNH = convert_float4(rsGetElementAt_uchar4(inPixels, x+1, y)).rgb;

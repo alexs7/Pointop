@@ -15,13 +15,16 @@ void root(const uchar4 *in, uchar4 *out, uint32_t x, uint32_t y) {
 
     //avoid border pixels
     if(x==0 || x==239 || y==0 || y==269){
-        float4 elementF4 = rsUnpackColor8888(*(uchar*)rsGetElementAt(inPixels, x, y));
-        uchar4 tempPixelChars = rsPackColorTo8888(elementF4);
-        float3 tempPixel = convert_float4(tempPixelChars).rgb;
+        //float4 elementF4 = rsUnpackColor8888(*(uchar*)rsGetElementAt(inPixels, x, y));
+        //uchar4 tempPixelChars = rsPackColorTo8888(elementF4);
+        //float3 tempPixel = convert_float4(tempPixelChars).rgb;
 
-        tempPixel.rb = 0;
-        tempPixel.g = 255;
-        pixel.rgb = tempPixel.rgb;
+        //tempPixel.rb = 0;
+        //tempPixel.g = 255;
+        //pixel.rgb = tempPixel.rgb;
+        pixel.r = 0;
+        pixel.g = 191;
+        pixel.b = 255;
     }else{ //do image processing here
 
         //top left pixel

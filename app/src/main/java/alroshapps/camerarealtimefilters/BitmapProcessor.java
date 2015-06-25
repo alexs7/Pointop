@@ -42,8 +42,8 @@ public class BitmapProcessor {
 //        }
         renderScriptAvgOperWrapper.setInAllocation(bmp);
         renderScriptAvgOperWrapper.setOutAllocation(bmpCopy);
-        renderScriptAvgOperWrapper.setScriptWidth(bmp.getWidth());
-        renderScriptAvgOperWrapper.setScriptHeight(bmp.getHeight());
+        renderScriptAvgOperWrapper.setScriptWidth(bmp.getWidth()-1);
+        renderScriptAvgOperWrapper.setScriptHeight(bmp.getHeight()-1);
         renderScriptAvgOperWrapper.forEach_root();
 
         return bmpCopy;
@@ -54,8 +54,8 @@ public class BitmapProcessor {
         //type will be used for different edge detection algorithms
         renderScriptEdgeDetectWrapper.setInAllocation(bmp);
         renderScriptEdgeDetectWrapper.setOutAllocation(bmpCopy);
-        renderScriptEdgeDetectWrapper.setScriptWidth(bmp.getWidth());
-        renderScriptEdgeDetectWrapper.setScriptHeight(bmp.getHeight());
+        renderScriptEdgeDetectWrapper.setScriptWidth(bmp.getWidth()-1);
+        renderScriptEdgeDetectWrapper.setScriptHeight(bmp.getHeight()-1);
         renderScriptEdgeDetectWrapper.forEach_root();
 
         return bmpCopy;

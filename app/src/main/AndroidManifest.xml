@@ -19,8 +19,8 @@
         android:label="@string/app_name" >
         <activity
             android:label="@string/app_name"
-            android:name=".MainPreviewActivity"
-            android:screenOrientation="landscape" >
+            android:name=".LiveCameraActivity"
+            android:screenOrientation="sensorLandscape" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 

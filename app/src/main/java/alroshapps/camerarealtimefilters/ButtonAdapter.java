@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -14,20 +15,22 @@ import android.widget.ListAdapter;
  */
 public class ButtonAdapter extends BaseAdapter {
     private Context mContext;
-    public String[] filenames = { "+", "-" };
+    public String[] buttons = { "+", "-" };
     private float scale;
     private int btnWidthPixels;
     private int btnHeightPixels;
+    private ControlButtonListener controlButtonListener;
 
     // Gets the context so it can be used later
     public ButtonAdapter(Context c) {
         mContext = c;
         scale = mContext.getResources().getDisplayMetrics().density;
+        controlButtonListener = new ControlButtonListener();
     }
 
     // Total number of things contained within the adapter
     public int getCount() {
-        return filenames.length;
+        return buttons.length;
     }
 
     // Require for structure, not really used in my code.
@@ -56,23 +59,13 @@ public class ButtonAdapter extends BaseAdapter {
             btn = (Button) convertView;
         }
 
-        btn.setText(filenames[position]);
+        btn.setText(buttons[position]);
         // filenames is an array of strings
         btn.setTextColor(Color.WHITE);
+        btn.setTextSize(32);
         //btn.setBackgroundResource(R.drawable.button);
         btn.setId(position);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String btnText = (String) ((Button) v).getText();
-                if (btnText == "+") {
-                    AngleCalculator.increaseAngle(10);
-                };
-                if (btnText == "-") {
-                    AngleCalculator.increaseAngle(-10);
-                };
-            }
-        });
+        btn.setOnClickListener(controlButtonListener);
 
         return btn;
     }
