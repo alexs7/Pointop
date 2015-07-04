@@ -11,11 +11,13 @@ public class BitmapProcessor {
     private Context ctx;
     private RenderScriptEdgeDetectWrapper renderScriptEdgeDetectWrapper;
     private RenderScriptAvgOperWrapper renderScriptAvgOperWrapper;
+    private RenderScriptFourierWrapper renderScriptFourierWrapper;
 
     public BitmapProcessor(Context context){
         ctx = context;
         renderScriptEdgeDetectWrapper = new RenderScriptEdgeDetectWrapper(ctx);
         renderScriptAvgOperWrapper = new RenderScriptAvgOperWrapper(ctx);
+        renderScriptFourierWrapper = new RenderScriptFourierWrapper(ctx);
     }
 
     /*
@@ -61,4 +63,14 @@ public class BitmapProcessor {
         return bmpCopy;
     }
 
+    public Bitmap processFourierTransform(Bitmap bmp, Bitmap bmpCopy) {
+
+        renderScriptFourierWrapper.setInAllocation(bmp);
+        renderScriptFourierWrapper.setOutAllocation(bmpCopy);
+        renderScriptFourierWrapper.setScriptWidth(bmp.getWidth()-1);
+        renderScriptFourierWrapper.setScriptHeight(bmp.getHeight()-1);
+        renderScriptFourierWrapper.forEach_root();
+
+        return bmpCopy;
+    }
 }
