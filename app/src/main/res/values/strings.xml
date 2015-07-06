@@ -1,27 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, CamTestActivity!</string>
     <string name="app_name">Pointop</string>
-    
-    <!-- UI Elements -->
-    <string name="btn_capture">Click</string>
-    
-    <!-- Toast Messages -->
-    <string name="camera_not_found">No camera harware found</string>
-    <string name="take_photo_help">Touch anywhere on screen to take picture</string>
-    <string name="information">Information</string>
-    <string name="actions_help">Scroll through for different effects</string>
-    <string name="funtionLimitWarning">Reached Function Limit!</string>
-    <string name="down_button_text">Down</string>
-    <string name="up_button_text">Up</string>
-    <string name="inverseInfo">Inverse Filter</string>
-    <string name="blackAndWhite">Black and White Matrix</string>
-    <string name="defaultMode">Default Mode</string>
-    <string name="randomValue">Random Matrix Filter (Disco Mode)</string>
-    <string name="renderScript">RenderScript</string>
-    <string name="edgeDetection">Edge Detection (Renderscript)</string>
-    <string name="averageOperator">Average Operator (Renderscript)</string>
-    <string name="rotationMatrix">Rotation Matrix</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,4 +1,4 @@
-package alroshapps.camerarealtimefilters;
+package com.apps.alexs7.pointop;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
