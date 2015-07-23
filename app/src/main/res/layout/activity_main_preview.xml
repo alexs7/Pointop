@@ -6,8 +6,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainPreviewActivity"
-    android:weightSum="1">
+    android:orientation="horizontal"
+    tools:context=".MainPreviewActivity">
 
     <fragment
         android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
@@ -17,4 +17,21 @@
         android:layout_height="match_parent">
     </fragment>
 
+    <fragment
+        android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
+        android:id="@+id/filters_fragment"
+        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+    </fragment>
+
+    <fragment
+        android:name="com.apps.alexs7.pointop.ProcessedPreviewFragment"
+        android:id="@+id/processed_preview_fragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+    </fragment>
+
 </LinearLayout>
+

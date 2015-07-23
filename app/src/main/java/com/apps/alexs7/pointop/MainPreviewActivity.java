@@ -25,8 +25,13 @@ public class MainPreviewActivity extends Activity {
     @Override
     protected void onStart() {
         FragmentManager fragmentManager = getFragmentManager();
+
         Fragment cleanPreviewFragment = fragmentManager.findFragmentById(R.id.clean_preview_fragment);
         cleanPreviewFragment.getView().setBackgroundColor(Color.BLUE);
+
+        //Fragment processedPreviewFragment = fragmentManager.findFragmentById(R.id.processed_preview_fragment);
+        //processedPreviewFragment.getView().setBackgroundColor(Color.RED);
+
         super.onStart();
     }
 }
