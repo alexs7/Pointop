@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 @SuppressWarnings("deprecation" ) //For camera
 public class CleanPreviewFragment extends Fragment implements TextureView.SurfaceTextureListener {
 
-    private TextureView mTextureView;
+    private CenteredSquareTextureView mTextureView;
     private Camera mCamera;
 
     public CleanPreviewFragment() {}
@@ -36,7 +37,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public void onStart() {
-        mTextureView = (TextureView) getView().findViewById(R.id.clean_preview_txview);
+        mTextureView = (CenteredSquareTextureView) getView().findViewById(R.id.clean_preview_txview);
         mTextureView.setSurfaceTextureListener(this);
         super.onStart();
     }
@@ -45,9 +46,9 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
         Camera.Parameters parameters = mCamera.getParameters();
-        List<Camera.Size> resolSizes = parameters.getSupportedPictureSizes();
+        List<Camera.Size> resolutionSizes = parameters.getSupportedPictureSizes();
 
-        Camera.Size optimalSize = CameraUtilities.getOptimalPreviewSize(resolSizes, width, height);
+        Camera.Size optimalSize = CameraUtilities.getOptimalPreviewSize(resolutionSizes, width, height);
         parameters.setPreviewSize(optimalSize.width, optimalSize.height);
 
         try {

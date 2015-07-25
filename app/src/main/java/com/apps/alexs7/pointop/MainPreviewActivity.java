@@ -27,11 +27,9 @@ public class MainPreviewActivity extends Activity {
         FragmentManager fragmentManager = getFragmentManager();
 
         Fragment cleanPreviewFragment = fragmentManager.findFragmentById(R.id.clean_preview_fragment);
-
+        cleanPreviewFragment.getView().setBackgroundColor(Color.BLACK);
         Fragment controlsFragment = fragmentManager.findFragmentById(R.id.controls_fragment);
-
         Fragment processedPreviewFragment = fragmentManager.findFragmentById(R.id.processed_preview_fragment);
-
         super.onStart();
     }
 }
