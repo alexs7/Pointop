@@ -9,21 +9,36 @@
     android:orientation="horizontal"
     tools:context=".MainPreviewActivity">
 
-    <fragment
-        android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
-        android:id="@+id/clean_preview_fragment"
-        android:layout_weight="0.5"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
-    </fragment>
 
-    <fragment
-        android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
-        android:id="@+id/filters_fragment"
-        android:layout_weight="0.5"
+    <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent">
-    </fragment>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1" >
+
+        <View
+            android:id="@+id/center_dummy_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
+
+        <fragment
+            android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
+            android:id="@+id/clean_preview_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@id/center_dummy_view">
+        </fragment>
+
+        <fragment
+            android:name="com.apps.alexs7.pointop.ControlsFragment"
+            android:id="@+id/controls_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignTop="@id/center_dummy_view">
+        </fragment>
+
+    </RelativeLayout>
 
     <fragment
         android:name="com.apps.alexs7.pointop.ProcessedPreviewFragment"
