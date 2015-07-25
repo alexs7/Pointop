@@ -27,6 +27,12 @@
             android:layout_alignBottom="@id/center_dummy_view">
         </fragment>
 
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lvImageProcessChoices"
+            android:layout_alignTop="@id/center_dummy_view"/>
+
     </RelativeLayout>
 
     <fragment
