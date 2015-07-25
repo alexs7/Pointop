@@ -27,14 +27,6 @@
             android:layout_alignBottom="@id/center_dummy_view">
         </fragment>
 
-        <fragment
-            android:name="com.apps.alexs7.pointop.ControlsFragment"
-            android:id="@+id/controls_fragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignTop="@id/center_dummy_view">
-        </fragment>
-
     </RelativeLayout>
 
     <fragment
