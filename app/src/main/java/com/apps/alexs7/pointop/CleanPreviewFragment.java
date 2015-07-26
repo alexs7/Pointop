@@ -1,5 +1,7 @@
 package com.apps.alexs7.pointop;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -22,10 +24,15 @@ import java.util.List;
 @SuppressWarnings("deprecation" ) //For camera
 public class CleanPreviewFragment extends Fragment implements TextureView.SurfaceTextureListener {
 
+    OnBitmapUpdatedListener mCallback;
     private CenteredSquareTextureView mTextureView;
     private Camera mCamera;
 
     public CleanPreviewFragment() {}
+
+    public interface OnBitmapUpdatedListener {
+        public void onCleanPreviewBitmapUpdated(Bitmap bmp);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +50,21 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnBitmapUpdatedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnBitmapUpdatedListener");
+        }
+
+    }
+
+    @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
         Camera.Parameters parameters = mCamera.getParameters();
@@ -52,6 +74,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
         parameters.setPreviewSize(optimalSize.width, optimalSize.height);
 
         try {
+            mCamera.setPreviewCallback(null);
             mCamera.setPreviewTexture(surfaceTexture);
             mCamera.startPreview();
         } catch (IOException e) {
@@ -66,11 +89,14 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        return false;
+        mCamera.stopPreview();
+        mCamera.release();
+        return true;
     }
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
+        Bitmap origBmp = mTextureView.getBitmap();
+        mCallback.onCleanPreviewBitmapUpdated(origBmp);
     }
 }

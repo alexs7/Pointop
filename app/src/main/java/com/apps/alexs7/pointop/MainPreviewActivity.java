@@ -3,7 +3,9 @@ package com.apps.alexs7.pointop;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,9 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class MainPreviewActivity extends Activity {
+public class MainPreviewActivity extends Activity
+        implements CleanPreviewFragment.OnBitmapUpdatedListener {
 
     private ListView lvChoices;
+    private FragmentManager fragmentManager;
+    private ProcessedPreviewFragment processedPreviewFragment;
+    private ProcessBitmapTask processBitmapTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +33,9 @@ public class MainPreviewActivity extends Activity {
 
         setContentView(R.layout.activity_main_preview);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment cleanPreviewFragment = fragmentManager.findFragmentById(R.id.clean_preview_fragment);
-        cleanPreviewFragment.getView().setBackgroundColor(Color.BLACK);
+        fragmentManager = getFragmentManager();
+        processBitmapTask = new ProcessBitmapTask();
+        processedPreviewFragment = (ProcessedPreviewFragment) fragmentManager.findFragmentById(R.id.processed_preview_fragment);
 
         lvChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
         lvChoices.setAdapter(new ArrayAdapter<String>(this,
@@ -39,12 +45,48 @@ public class MainPreviewActivity extends Activity {
         lvChoices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(view.getContext(), Long.toString(id), Toast.LENGTH_LONG).show();
-                //processingFunction = (int) parent.getItemIdAtPosition(position);
+
             }
 
             ;
         });
+    }
+
+    @Override
+    public void onCleanPreviewBitmapUpdated(Bitmap origBmp) {
+
+        if(processBitmapTask.getStatus() != AsyncTask.Status.RUNNING) {
+            processBitmapTask.execute(origBmp);
+        }
+
+    }
+
+    private class ProcessBitmapTask extends AsyncTask<Bitmap, Void, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... bitmaps) {
+            Bitmap bitmapToProcess = bitmaps[0];
+
+            for(int x=0;x<bitmapToProcess.getWidth();x++){
+                for(int y=0;y<bitmapToProcess.getHeight();y++){
+
+                    if(bitmapToProcess.getPixel(x,y) < -8388608){
+                        bitmapToProcess.setPixel(x,y, Color.WHITE);
+                    }else{
+                        bitmapToProcess.setPixel(x,y,Color.BLACK);
+                    }
+                }
+            }
+
+            return bitmapToProcess;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if(processedPreviewFragment != null) {
+                processedPreviewFragment.setImageViewBitmap(result);
+            }
+        }
     }
 
 }
