@@ -45,24 +45,11 @@ public class MainPreviewActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
-
-            ;
         });
     }
 
     @Override
     public void onCleanPreviewBitmapUpdated(Bitmap origBmp) {
-
-        for(int x=0;x<origBmp.getWidth();x++){
-            for(int y=0;y<origBmp.getHeight();y++){
-
-                if(origBmp.getPixel(x,y) < -8388608){
-                    origBmp.setPixel(x,y, Color.WHITE);
-                }else{
-                    origBmp.setPixel(x,y,Color.BLACK);
-                }
-            }
-        }
 
         if(processedPreviewFragment != null) {
             processedPreviewFragment.setImageViewBitmap(origBmp);
