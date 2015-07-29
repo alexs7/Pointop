@@ -1,36 +1,24 @@
 #pragma version(1)
 #pragma rs java_package_name(com.apps.alexs7.pointop)
 
-rs_allocation inPixels;
-int height;
-int width;
+//rs_allocation inPixels;
+//int height;
+//int width;
 
-void root(const uchar4 *in, uchar4 *out, uint32_t x, uint32_t y) {
-    float3 pixel = convert_float4(in[0]).rgb;
+uchar4 RS_KERNEL root(uchar4 in, uint32_t x, uint32_t y) {
+  // x and y aren't used, so you can remove those from the above signature too.
+  uchar4 out;
+  float3 pixel = convert_float4(in).rgb;
 
-    if(x==0 || x==width || y==0 || y==height){
-        pixel.r = 0;
-        pixel.g = 191;
-        pixel.b = 255;
-    }else{ //do image processing here
+  pixel.r = (pixel.r + pixel.g + pixel.b)/3;
+  // This seems buggy to me below, since pixel.r was just modified.
+  // I think you need another temporary variable (assuming you are trying to make this work and getting weird behavior).
+  pixel.g = (pixel.r + pixel.g + pixel.b)/3;
+  pixel.b = (pixel.r + pixel.g + pixel.b)/3;
 
-        float3 pixelNH = convert_float4(rsGetElementAt_uchar4(inPixels, x+1, y)).rgb;
-        float3 pixelNV = convert_float4(rsGetElementAt_uchar4(inPixels, x, y+1)).rgb;
+  //int topRight
+  //float4 f4 = rsUnpackColor8888(*(uchar*)rsGetElementAt(inPixels, x+1, y+1));
 
-        int grayAvg = (pixel.r + pixel.g + pixel.b)/3;
-        int grayAvgNH = (pixelNH.r + pixelNH.g + pixelNH.b)/3;
-        int grayAvgNV = (pixelNV.r + pixelNV.g + pixelNV.b)/3;
-
-        int edgeOperatorValue = 2*grayAvg - grayAvgNH - grayAvgNV;
-
-        if(edgeOperatorValue < 0){
-            edgeOperatorValue = -1 * edgeOperatorValue;
-        };
-
-        pixel.r = edgeOperatorValue;
-        pixel.g = edgeOperatorValue;
-        pixel.b = edgeOperatorValue;
-    };
-
-    out->xyz = convert_uchar3(pixel);
+  out.xyz = convert_uchar3(pixel);
+  return out;
 }

@@ -23,6 +23,7 @@ public class MainPreviewActivity extends Activity
 
     private ListView lvChoices;
     private FragmentManager fragmentManager;
+    private BProcessor bProcessor;
     private ProcessedPreviewFragment processedPreviewFragment;
 
     @Override
@@ -34,6 +35,7 @@ public class MainPreviewActivity extends Activity
 
         fragmentManager = getFragmentManager();
         processedPreviewFragment = (ProcessedPreviewFragment) fragmentManager.findFragmentById(R.id.processed_preview_fragment);
+        bProcessor = new BProcessor(this);
 
         lvChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
         lvChoices.setAdapter(new ArrayAdapter<String>(this,
@@ -43,7 +45,7 @@ public class MainPreviewActivity extends Activity
         lvChoices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                bProcessor.setFunction((int) parent.getItemIdAtPosition(position));
             }
         });
     }
@@ -52,9 +54,10 @@ public class MainPreviewActivity extends Activity
     public void onCleanPreviewBitmapUpdated(Bitmap origBmp) {
 
         if(processedPreviewFragment != null) {
-            processedPreviewFragment.setImageViewBitmap(origBmp);
+            processedPreviewFragment.setImageViewBitmap(
+                    bProcessor.processBitmap(origBmp)
+            );
         }
-
     }
 
 }
