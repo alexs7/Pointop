@@ -20,22 +20,22 @@ public class EdgeDetection {
     }
 
     public Bitmap apply(Bitmap origBmp) {
-        int width = origBmp.getWidth()-1;
-        int height = origBmp.getHeight()-1;
+        int width = origBmp.getWidth();
+        int height = origBmp.getHeight();
 
-        Bitmap bmpCopy = origBmp.copy(origBmp.getConfig(), true);
+        //Bitmap bmpCopy = origBmp.copy(origBmp.getConfig(), true);
 
         inAllocation = Allocation.createFromBitmap(mRS, origBmp);
-        outAllocation = Allocation.createFromBitmap(mRS, bmpCopy);
+        outAllocation = Allocation.createFromBitmap(mRS, Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888));
 
-//        mScript.set_width(width);
-//        mScript.set_height(height);
-//        mScript.set_inPixels(inAllocation);
+        mScript.set_width(width-1);
+        mScript.set_height(height-1);
+        mScript.set_inPixels(inAllocation);
 
         mScript.forEach_root(inAllocation,outAllocation);
 
-        outAllocation.copyTo(bmpCopy);
+        outAllocation.copyTo(origBmp);
 
-        return bmpCopy;
+        return origBmp;
     }
 }

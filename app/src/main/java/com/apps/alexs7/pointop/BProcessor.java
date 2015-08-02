@@ -28,6 +28,7 @@ public class BProcessor {
         switch(function) {
             case 0:
                 modifiedBitmap = simplefilters.inversePixels(bmp);
+                break;
             case 5:
                 modifiedBitmap = edgeDetection.apply(bmp);
                 break;
