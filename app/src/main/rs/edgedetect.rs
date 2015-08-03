@@ -6,13 +6,12 @@ int height;
 int width;
 
 uchar4 RS_KERNEL root(uchar4 in, uint32_t x, uint32_t y) {
-  uchar4 out;
-  float4 pixel = convert_float4(in).rgba;
+
+  uchar4 pixel = in.rgba;
 
   pixel.r = (pixel.r + pixel.g + pixel.b)/3;
   pixel.g = (pixel.r + pixel.g + pixel.b)/3;
   pixel.b = (pixel.r + pixel.g + pixel.b)/3;
 
-  out = convert_uchar4(pixel);
-  return out;
+  return pixel;
 }
