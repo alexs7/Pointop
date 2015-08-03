@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/DeepSkyBlue"
+    tools:context=".MainPreviewActivity">
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1" >
+
+        <View
+            android:id="@+id/center_dummy_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
+
+        <fragment
+            android:name="com.apps.alexs7.pointop.CleanPreviewFragment"
+            android:id="@+id/clean_preview_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@id/center_dummy_view">
+        </fragment>
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lvImageProcessChoices"
+            android:layout_alignTop="@id/center_dummy_view"/>
+
+    </RelativeLayout>
+
+    <fragment
+        android:name="com.apps.alexs7.pointop.ProcessedPreviewFragment"
+        android:id="@+id/processed_preview_fragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+    </fragment>
+
+</LinearLayout>
+

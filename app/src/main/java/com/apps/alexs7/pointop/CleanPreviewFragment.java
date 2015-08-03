@@ -66,12 +66,16 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
         Camera.Parameters parameters = mCamera.getParameters();
+        mCamera.setDisplayOrientation(90);
         List<Camera.Size> resolutionSizes = parameters.getSupportedPictureSizes();
 
         Camera.Size optimalSize = CameraUtilities.getOptimalPreviewSize(resolutionSizes, width, height);
+        System.out.println("Width: "+optimalSize.width);
+        System.out.println("Height: "+optimalSize.height);
         parameters.setPreviewSize(optimalSize.width, optimalSize.height);
+        mCamera.setParameters(parameters);
 
         try {
             mCamera.setPreviewCallback(null);

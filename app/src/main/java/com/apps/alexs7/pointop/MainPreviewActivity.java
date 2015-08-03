@@ -1,17 +1,11 @@
 package com.apps.alexs7.pointop;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +15,7 @@ import android.widget.ListView;
 public class MainPreviewActivity extends Activity
         implements CleanPreviewFragment.OnBitmapUpdatedListener {
 
-    private ListView lvChoices;
+    private ListView lvlChoices;
     private FragmentManager fragmentManager;
     private BProcessor bProcessor;
     private ProcessedPreviewFragment processedPreviewFragment;
@@ -37,17 +31,42 @@ public class MainPreviewActivity extends Activity
         processedPreviewFragment = (ProcessedPreviewFragment) fragmentManager.findFragmentById(R.id.processed_preview_fragment);
         bProcessor = new BProcessor(this);
 
-        lvChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
-        lvChoices.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.control_filter_item_view,
-                getResources().getStringArray(R.array.list_of_image_processing_choices)));
+        if(getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_PORTRAIT &&
+                findViewById(R.id.clean_preview_fragment_container) != null){
 
-        lvChoices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bProcessor.setFunction((int) parent.getItemIdAtPosition(position));
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if(savedInstanceState != null){
+                System.out.println("savedInstanceState is NOT null");
+                return;
             }
-        });
+            CleanPreviewFragment cleanPreviewFragment = new CleanPreviewFragment();
+            processedPreviewFragment = new ProcessedPreviewFragment();
+
+            fragmentTransaction.add(R.id.clean_preview_fragment_container,cleanPreviewFragment);
+            fragmentTransaction.detach(cleanPreviewFragment);
+            fragmentTransaction.replace(R.id.clean_preview_fragment_container, processedPreviewFragment);
+            fragmentTransaction.attach(cleanPreviewFragment);
+            //fragmentTransaction.addToBackStack(null);
+
+            fragmentTransaction.commit();
+
+            //fragmentTransaction.replace(R.id.clean_preview_fragment, processedPreviewFragment);
+            //fragmentTransaction.commit();
+        }
+
+        lvlChoices = (ListView) findViewById(R.id.lvImageProcessChoices);
+        if(lvlChoices != null){
+            lvlChoices.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.control_filter_item_view,
+                    getResources().getStringArray(R.array.list_of_image_processing_choices)));
+
+            lvlChoices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    bProcessor.setFunction((int) parent.getItemIdAtPosition(position));
+                }
+            });
+        }
     }
 
     @Override
