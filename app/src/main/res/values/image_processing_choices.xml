@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="list_of_image_processing_choices">
+        <item>Single Viewer</item>
+        <item>Dual Viewer</item>
+        <item>Default Preview</item>
         <item>Inverse (Using Matrices)</item>
         <item>Black And White (Using Matrices)</item>
         <item>Random Matrix</item>

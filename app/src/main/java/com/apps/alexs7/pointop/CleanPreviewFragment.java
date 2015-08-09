@@ -28,7 +28,13 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     private CenteredSquareTextureView mTextureView;
     private Camera mCamera;
 
-    public CleanPreviewFragment() {}
+    public CleanPreviewFragment() {
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+    }
+
+    public Camera getCamera() {
+        return mCamera;
+    }
 
     public interface OnBitmapUpdatedListener {
         public void onCleanPreviewBitmapUpdated(Bitmap bmp);
@@ -66,9 +72,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
         Camera.Parameters parameters = mCamera.getParameters();
-        mCamera.setDisplayOrientation(90);
         List<Camera.Size> resolutionSizes = parameters.getSupportedPictureSizes();
 
         Camera.Size optimalSize = CameraUtilities.getOptimalPreviewSize(resolutionSizes, width, height);
@@ -88,7 +92,6 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
-
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.apps.alexs7.pointop;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
@@ -24,7 +25,9 @@ public class CenteredSquareTextureView extends TextureView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
-        this.setMeasuredDimension( parentHeight, parentHeight); //height will always be < width
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+            this.setMeasuredDimension(parentHeight, parentHeight); //height will always be < width
+        }
     }
 }

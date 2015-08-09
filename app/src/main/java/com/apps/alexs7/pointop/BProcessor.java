@@ -10,12 +10,10 @@ public class BProcessor {
 
     private int function;
     private EdgeDetection edgeDetection;
-    private SimpleFilters simplefilters;
 
     public BProcessor(Context ctx) {
         function = 0;
         edgeDetection = new EdgeDetection(ctx);
-        simplefilters = new SimpleFilters(ctx);
     }
 
     public void setFunction(int function) {
@@ -26,10 +24,10 @@ public class BProcessor {
         Bitmap modifiedBitmap;
 
         switch(function) {
-            case 0:
-                modifiedBitmap = simplefilters.inversePixels(bmp);
+            case 2:
+                modifiedBitmap = bmp; //do nothing
                 break;
-            case 5:
+            case 8:
                 modifiedBitmap = edgeDetection.apply(bmp);
                 break;
             default:

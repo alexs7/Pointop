@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Black"
     tools:context="com.apps.alexs7.pointop.CleanPreviewFragment">
 
     <com.apps.alexs7.pointop.CenteredSquareTextureView
