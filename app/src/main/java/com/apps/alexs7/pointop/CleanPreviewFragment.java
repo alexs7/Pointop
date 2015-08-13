@@ -1,6 +1,7 @@
 package com.apps.alexs7.pointop;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.SurfaceTexture;
@@ -28,16 +29,31 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     private CenteredSquareTextureView mTextureView;
     private Camera mCamera;
 
-    public CleanPreviewFragment() {
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
-    }
-
-    public Camera getCamera() {
-        return mCamera;
-    }
+    public CleanPreviewFragment() {}
 
     public interface OnBitmapUpdatedListener {
         public void onCleanPreviewBitmapUpdated(Bitmap bmp);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if(!CameraUtilities.isCameraInUse(mCamera)) {
+            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                mCamera.setDisplayOrientation(90);
+            }
+        }
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnBitmapUpdatedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnBitmapUpdatedListener");
+        }
     }
 
     @Override
@@ -45,6 +61,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_clean_preview, container, false);
+
         return fragmentView;
     }
 
@@ -56,18 +73,14 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnBitmapUpdatedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnBitmapUpdatedListener");
+    public void onResume() {
+        super.onResume();
+        if(!CameraUtilities.isCameraInUse(mCamera)) {
+            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                mCamera.setDisplayOrientation(90);
+            }
         }
-
     }
 
     @Override
@@ -98,7 +111,8 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
         mCamera.stopPreview();
         mCamera.release();
-        return true;
+        mCamera = null;
+        return false;
     }
 
     @Override

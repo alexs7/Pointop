@@ -22,9 +22,9 @@ public class FragmentHelper {
     }
 
     public void setupFragments() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         cleanPreviewFragment = new CleanPreviewFragment();
         processedPreviewFragment = new ProcessedPreviewFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if(resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             fragmentTransaction.add(R.id.clean_preview_fragment_container, cleanPreviewFragment);
