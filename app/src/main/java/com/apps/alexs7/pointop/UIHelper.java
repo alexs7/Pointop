@@ -30,25 +30,30 @@ public class UIHelper {
             lvlChoices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position == 0 || position == 1) {
-                        switch (position) {
-                            case 0:
-                                if (resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                                } else {
-                                    Toast.makeText(mActivity, R.string.portrait_warning, Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            case 1:
-                                if (resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                                    mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                                } else {
-                                    Toast.makeText(mActivity, R.string.landscape_warning, Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                        }
-                    } else {
-                        mBProcessor.setFunction((int) parent.getItemIdAtPosition(position));
+                    int itemId = (int) parent.getItemIdAtPosition(position);
+                    switch (position) {
+                        case 0:
+                            if (resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                            } else {
+                                Toast.makeText(mActivity, R.string.portrait_warning, Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        case 1:
+                            if (resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                            } else {
+                                Toast.makeText(mActivity, R.string.landscape_warning, Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        case 9:
+                            CleanPreviewFragment  cleanPreviewFragment = (CleanPreviewFragment) mActivity.getFragmentManager().findFragmentByTag(FragmentHelper.CLEAN_PREVIEW_TAG);
+                            cleanPreviewFragment.stopPreview();
+                            mBProcessor.setFunction(itemId);
+                            break;
+                        default:
+                            mBProcessor.setFunction(itemId);
+                            break;
                     }
                 }
             });

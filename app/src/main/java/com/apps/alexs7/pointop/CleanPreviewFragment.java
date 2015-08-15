@@ -120,4 +120,10 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
         Bitmap origBmp = mTextureView.getBitmap();
         mCallback.onCleanPreviewBitmapUpdated(origBmp);
     }
+
+    public void stopPreview(){
+        if(CameraUtilities.isCameraInUse(mCamera)) {
+           mCamera.stopPreview();
+        }
+    }
 }

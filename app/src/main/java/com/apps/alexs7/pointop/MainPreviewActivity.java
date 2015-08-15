@@ -35,13 +35,6 @@ public class MainPreviewActivity extends Activity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        fragmentHelper.setupFragments();
-    }
-
-    @Override
     public void onCleanPreviewBitmapUpdated(Bitmap origBmp) {
         if(fragmentHelper.getProcessedPreviewFragment() != null) {
             fragmentHelper.getProcessedPreviewFragment().setImageViewBitmap(
