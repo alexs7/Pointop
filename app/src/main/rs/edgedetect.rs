@@ -20,7 +20,7 @@ uchar4 RS_KERNEL root(uchar4 in, uint32_t x, uint32_t y) {
       int grayAvgNH = (pixelNH.r + pixelNH.g + pixelNH.b)/3;
       int grayAvgNV = (pixelNV.r + pixelNV.g + pixelNV.b)/3;
 
-      int edgePixelValue = abs(2 * grayAvg - grayAvgNH + grayAvgNV);
+      int edgePixelValue = abs(2 * grayAvg - grayAvgNH - grayAvgNV);
       pixel.rgb = edgePixelValue;
   };
 
