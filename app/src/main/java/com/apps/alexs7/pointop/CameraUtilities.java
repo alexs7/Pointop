@@ -42,4 +42,16 @@ public class CameraUtilities {
         }
         return optimalSize;
     }
+
+    public static boolean isCameraInUse(Camera c) {
+        c = null;
+        try {
+            c = Camera.open();
+        } catch (RuntimeException e) {
+            return true;
+        } finally {
+            if (c != null) c.release();
+        }
+        return false;
+    }
 }

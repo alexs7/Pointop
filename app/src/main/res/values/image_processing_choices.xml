@@ -4,12 +4,12 @@
         <item>Single Viewer</item>
         <item>Dual Viewer</item>
         <item>Default Preview</item>
-        <item>Inverse (Using Matrices)</item>
-        <item>Black And White (Using Matrices)</item>
+        <item>Greyscale</item>
+        <item>Black And White</item>
         <item>Random Matrix</item>
-        <item>Normal Mode</item>
         <item>Simple Averaging Operator</item>
         <item>Edge Detection</item>
         <item>Rotation</item>
+        <item>2D Fourier Transform</item>
     </string-array>
 </resources>

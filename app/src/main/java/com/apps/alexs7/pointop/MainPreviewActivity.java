@@ -31,7 +31,6 @@ public class MainPreviewActivity extends Activity
 
         fragmentHelper = new FragmentHelper(this);
         fragmentHelper.setupFragments();
-        fragmentHelper.getCleanPreviewFragment().getCamera().setDisplayOrientation(90);
         UIHelper.buidListWithChoices(this, bProcessor);
     }
 

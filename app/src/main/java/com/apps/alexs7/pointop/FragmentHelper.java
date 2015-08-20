@@ -15,6 +15,7 @@ public class FragmentHelper {
     private FragmentManager fragmentManager;
     private CleanPreviewFragment cleanPreviewFragment;
     private ProcessedPreviewFragment processedPreviewFragment;
+    public static String CLEAN_PREVIEW_TAG = "CLEAN_PREVIEW__FRAGMENT_TAG";
 
     public FragmentHelper(Activity activity){
         resources = activity.getResources();
@@ -22,15 +23,18 @@ public class FragmentHelper {
     }
 
     public void setupFragments() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(cleanPreviewFragment != null){
+            fragmentTransaction.remove(cleanPreviewFragment);
+        }
         cleanPreviewFragment = new CleanPreviewFragment();
         processedPreviewFragment = new ProcessedPreviewFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if(resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            fragmentTransaction.add(R.id.clean_preview_fragment_container, cleanPreviewFragment);
+            fragmentTransaction.add(R.id.clean_preview_fragment_container, cleanPreviewFragment,CLEAN_PREVIEW_TAG);
             fragmentTransaction.add(R.id.processed_preview_fragment_container, processedPreviewFragment);
         }else if(resources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            fragmentTransaction.add(R.id.clean_preview_fragment_container, cleanPreviewFragment);
+            fragmentTransaction.add(R.id.clean_preview_fragment_container, cleanPreviewFragment,CLEAN_PREVIEW_TAG);
             fragmentTransaction.detach(cleanPreviewFragment);
             fragmentTransaction.replace(R.id.clean_preview_fragment_container, processedPreviewFragment);
             fragmentTransaction.attach(cleanPreviewFragment);
