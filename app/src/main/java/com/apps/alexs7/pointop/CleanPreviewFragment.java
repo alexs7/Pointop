@@ -109,10 +109,15 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+        return false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         mCamera.stopPreview();
         mCamera.release();
         mCamera = null;
-        return false;
     }
 
     @Override

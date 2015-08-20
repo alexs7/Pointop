@@ -24,6 +24,9 @@ public class FragmentHelper {
 
     public void setupFragments() {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(cleanPreviewFragment != null){
+            fragmentTransaction.remove(cleanPreviewFragment);
+        }
         cleanPreviewFragment = new CleanPreviewFragment();
         processedPreviewFragment = new ProcessedPreviewFragment();
 
