@@ -28,6 +28,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     OnBitmapUpdatedListener mCallback;
     private CenteredSquareTextureView mTextureView;
     private Camera mCamera;
+    private int currentCameraSide;
 
     public CleanPreviewFragment() {}
 
@@ -39,9 +40,10 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
+        currentCameraSide = Camera.CameraInfo.CAMERA_FACING_BACK;
         if(!CameraUtilities.isCameraInUse(mCamera)) {
-            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
-            if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            mCamera = Camera.open(currentCameraSide);
+            if(fragmentOrientation() == Configuration.ORIENTATION_PORTRAIT){
                 mCamera.setDisplayOrientation(90);
             }
         }
@@ -69,6 +71,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public void onStart() {
         mTextureView = (CenteredSquareTextureView) getView().findViewById(R.id.clean_preview_txview);
         mTextureView.setSurfaceTextureListener(this);
+        setSwitchCamerasListener();
         super.onStart();
     }
 
@@ -87,10 +90,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         Camera.Parameters parameters = mCamera.getParameters();
         List<Camera.Size> resolutionSizes = parameters.getSupportedPictureSizes();
-
         Camera.Size optimalSize = CameraUtilities.getOptimalPreviewSize(resolutionSizes, width, height);
-        System.out.println("Width: "+optimalSize.width);
-        System.out.println("Height: "+optimalSize.height);
         parameters.setPreviewSize(optimalSize.width, optimalSize.height);
         mCamera.setParameters(parameters);
 
@@ -130,5 +130,36 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
         if(CameraUtilities.isCameraInUse(mCamera)) {
            mCamera.stopPreview();
         }
+    }
+
+    private void setSwitchCamerasListener() {
+        mTextureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CameraUtilities.isCameraInUse(mCamera)){
+                    if(currentCameraSide == Camera.CameraInfo.CAMERA_FACING_FRONT){
+                        currentCameraSide = Camera.CameraInfo.CAMERA_FACING_BACK;
+                    }else{
+                        currentCameraSide = Camera.CameraInfo.CAMERA_FACING_FRONT;
+                    }
+
+                    mCamera = CameraUtilities.releaseCamera(mCamera);
+                    mCamera = Camera.open(currentCameraSide);
+                    try {
+                        mCamera.setPreviewTexture(mTextureView.getSurfaceTexture());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if(fragmentOrientation() == Configuration.ORIENTATION_PORTRAIT){
+                        mCamera.setDisplayOrientation(90);
+                    }
+                    mCamera.startPreview();
+                }
+            }
+        });
+    }
+
+    private int fragmentOrientation(){
+        return getActivity().getResources().getConfiguration().orientation;
     }
 }

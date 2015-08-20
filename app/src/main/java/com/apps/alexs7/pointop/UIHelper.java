@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +48,8 @@ public class UIHelper {
                             }
                             break;
                         case 9:
-                            CleanPreviewFragment  cleanPreviewFragment = (CleanPreviewFragment) mActivity.getFragmentManager().findFragmentByTag(FragmentHelper.CLEAN_PREVIEW_TAG);
+                            CleanPreviewFragment  cleanPreviewFragment = (CleanPreviewFragment)
+                                    mActivity.getFragmentManager().findFragmentByTag(FragmentHelper.CLEAN_PREVIEW_TAG);
                             cleanPreviewFragment.stopPreview();
                             mBProcessor.setFunction(itemId);
                             break;
@@ -59,5 +61,4 @@ public class UIHelper {
             });
         }
     }
-
 }
