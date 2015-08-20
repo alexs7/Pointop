@@ -49,6 +49,7 @@ public class MainPreviewActivity extends Activity
         setContentView(R.layout.activity_main_preview);
 
         fragmentHelper.setupFragments();
-        UIHelper.buidListWithChoices(this,bProcessor);
+        UIHelper.buidListWithChoices(this, bProcessor);
+        UIHelper.setSwitchCamerasTextureViewListener(this);
     }
 }

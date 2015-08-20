@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,4 +61,9 @@ public class UIHelper {
         }
     }
 
+    public static void setSwitchCamerasTextureViewListener(Activity activity) {
+        TextureView textureView = (TextureView) activity.findViewById(R.id.clean_preview_txview);
+        textureView.setOnClickListener();
+
+    }
 }
