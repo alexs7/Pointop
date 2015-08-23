@@ -3,6 +3,7 @@ package com.apps.alexs7.pointop;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -15,6 +16,7 @@ public class MainPreviewActivity extends Activity
     private BProcessor bProcessor;
     private FragmentHelper fragmentHelper;
     private UIHelper uiHelper;
+    private boolean processing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,10 @@ public class MainPreviewActivity extends Activity
     @Override
     public void onCleanPreviewBitmapUpdated(Bitmap origBmp) {
         if(fragmentHelper.getProcessedPreviewFragment() != null) {
-            fragmentHelper.getProcessedPreviewFragment().setImageViewBitmap(
-                    bProcessor.processBitmap(origBmp)
-            );
+            if(!processing){
+                processing = true;
+                new ProcessBitmap().execute(origBmp);
+            }
         }
     }
 
@@ -46,5 +49,22 @@ public class MainPreviewActivity extends Activity
 
         fragmentHelper.setupFragments();
         uiHelper.buildListWithChoices();
+    }
+
+    private class ProcessBitmap extends AsyncTask<Bitmap, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... bitmaps) {
+            Bitmap resultBitmap;
+            resultBitmap = bProcessor.processBitmap(bitmaps[0]);
+            return resultBitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            processing = false;
+            fragmentHelper.getProcessedPreviewFragment().setImageViewBitmap(bitmap);
+            super.onPostExecute(bitmap);
+        }
     }
 }

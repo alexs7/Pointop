@@ -35,6 +35,8 @@ public class ProcessedPreviewFragment extends Fragment {
     }
 
     public void setImageViewBitmap(Bitmap bmp){
-        this.mImageView.setImageBitmap(bmp);
+        if(mImageView != null) {
+            mImageView.setImageBitmap(bmp);
+        }
     }
 }

@@ -37,7 +37,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public CleanPreviewFragment() {}
 
     public interface OnBitmapUpdatedListener {
-        public void onCleanPreviewBitmapUpdated(Bitmap bmp);
+        void onCleanPreviewBitmapUpdated(Bitmap bmp);
     }
 
     @Override
