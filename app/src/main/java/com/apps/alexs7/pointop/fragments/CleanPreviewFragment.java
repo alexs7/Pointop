@@ -120,6 +120,7 @@ public class CleanPreviewFragment extends Fragment implements TextureView.Surfac
     public void onPause() {
         super.onPause();
         mCamera.stopPreview();
+        mCamera.setPreviewCallback(null);
         mCamera.release();
         mCamera = null;
     }
