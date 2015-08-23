@@ -12,7 +12,7 @@
         android:layout_height="fill_parent"
         android:clickable="true"
         card_view:cardCornerRadius="6dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="2dp"
         card_view:cardBackgroundColor="@color/DeepSkyBlue">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
