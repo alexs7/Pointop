@@ -20,6 +20,7 @@ public class MainPreviewActivity extends Activity
 
     private BProcessor bProcessor;
     private FragmentHelper fragmentHelper;
+    private UIHelper uiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +29,11 @@ public class MainPreviewActivity extends Activity
         setContentView(R.layout.activity_main_preview);
 
         bProcessor = new BProcessor(this);
-
         fragmentHelper = new FragmentHelper(this);
+        uiHelper = new UIHelper(this,bProcessor);
+
         fragmentHelper.setupFragments();
-        UIHelper.buidListWithChoices(this, bProcessor);
+        uiHelper.buildListWithChoices();
     }
 
     @Override
@@ -49,6 +51,6 @@ public class MainPreviewActivity extends Activity
         setContentView(R.layout.activity_main_preview);
 
         fragmentHelper.setupFragments();
-        UIHelper.buidListWithChoices(this, bProcessor);
+        uiHelper.buildListWithChoices();
     }
 }

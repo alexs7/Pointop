@@ -23,14 +23,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignBottom="@id/center_dummy_view"
-            android:background="@color/DeepSkyBlue"/>
+            android:background="@color/WhiteSmoke"/>
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/lvImageProcessChoices"
+            android:id="@+id/listOptionsRecyclerView"
             android:layout_alignTop="@id/center_dummy_view"
-            android:background="@color/DeepSkyBlue"/>
+            android:background="@color/WhiteSmoke"/>
 
     </RelativeLayout>
 
@@ -39,7 +39,7 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:background="@color/Black"/>
+        android:background="@color/WhiteSmoke"/>
 
 </LinearLayout>
 
