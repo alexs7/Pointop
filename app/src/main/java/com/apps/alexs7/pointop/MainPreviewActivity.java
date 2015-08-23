@@ -1,18 +1,12 @@
 package com.apps.alexs7.pointop;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+
+import com.apps.alexs7.pointop.fragments.CleanPreviewFragment;
 
 
 public class MainPreviewActivity extends Activity

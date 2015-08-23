@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apps.alexs7.pointop.fragments.CleanPreviewFragment;
+
 /**
  * Created by alex on 09/08/15.
  */
@@ -107,7 +109,7 @@ public class UIHelper {
                     }
                     break;
                 case 9:
-                    CleanPreviewFragment  cleanPreviewFragment = (CleanPreviewFragment)
+                    CleanPreviewFragment cleanPreviewFragment = (CleanPreviewFragment)
                             mActivity.getFragmentManager().findFragmentByTag(FragmentHelper.CLEAN_PREVIEW_TAG);
                     cleanPreviewFragment.stopPreview();
                     mBProcessor.setFunction(position);

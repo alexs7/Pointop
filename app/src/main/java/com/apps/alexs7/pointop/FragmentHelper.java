@@ -6,6 +6,9 @@ import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.apps.alexs7.pointop.fragments.CleanPreviewFragment;
+import com.apps.alexs7.pointop.fragments.ProcessedPreviewFragment;
+
 /**
  * Created by alex on 09/08/15.
  */

@@ -1,4 +1,4 @@
-package com.apps.alexs7.pointop;
+package com.apps.alexs7.pointop.fragments;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -14,6 +14,10 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.apps.alexs7.pointop.CameraUtilities;
+import com.apps.alexs7.pointop.CenteredSquareTextureView;
+import com.apps.alexs7.pointop.R;
 
 import java.io.IOException;
 import java.util.List;
