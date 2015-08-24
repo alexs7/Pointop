@@ -5,9 +5,12 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.apps.alexs7.pointop.fragments.CleanPreviewFragment;
+
+import org.opencv.android.OpenCVLoader;
 
 
 public class MainPreviewActivity extends Activity
@@ -23,6 +26,13 @@ public class MainPreviewActivity extends Activity
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_preview);
+
+        if(!OpenCVLoader.initDebug()){
+            Log.d("ERROR", "Unable to load OpenCV");
+        }
+        else{
+            Log.d("SUCCESS", "OpenCV loaded");
+        }
 
         bProcessor = new BProcessor(this);
         fragmentHelper = new FragmentHelper(this);

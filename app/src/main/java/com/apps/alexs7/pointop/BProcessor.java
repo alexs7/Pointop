@@ -3,6 +3,10 @@ package com.apps.alexs7.pointop;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
 /**
  * Created by alex on 29/07/15.
  */
@@ -13,6 +17,8 @@ public class BProcessor {
     private FourierTransform fourierTransform;
     private GreyScale greyScale;
     private Threshold threshold;
+    private Mat mCurrentFrameMat;
+    private Mat mNextFrameMat;
 
     public BProcessor(Context ctx) {
         function = 0;
@@ -20,6 +26,8 @@ public class BProcessor {
         greyScale = new GreyScale(ctx);
         threshold = new Threshold(ctx);
         fourierTransform = new FourierTransform(ctx);
+        mCurrentFrameMat = new Mat();
+        mNextFrameMat = new Mat();
     }
 
     public void setFunction(int function) {
@@ -27,7 +35,7 @@ public class BProcessor {
     }
 
     public Bitmap processBitmap(Bitmap bmp) {
-        Bitmap modifiedBitmap;
+        Bitmap modifiedBitmap = Bitmap.createBitmap(bmp.getWidth(),bmp.getHeight(),Bitmap.Config.ARGB_8888);
 
         switch(function) {
             case 2:
@@ -44,6 +52,12 @@ public class BProcessor {
                 break;
             case 9:
                 modifiedBitmap = fourierTransform.apply(bmp);
+                break;
+            case 10:
+                Utils.bitmapToMat(bmp, mCurrentFrameMat);
+                //Imgproc.equalizeHist(mCurrentFrame, mNextFrame);
+                Imgproc.cvtColor(mCurrentFrameMat,mNextFrameMat,Imgproc.COLOR_RGBA2GRAY);
+                Utils.matToBitmap(mNextFrameMat, modifiedBitmap);
                 break;
             default:
                 modifiedBitmap = bmp;

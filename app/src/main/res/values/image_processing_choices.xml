@@ -11,5 +11,6 @@
         <item>Edge Detection</item>
         <item>Rotation</item>
         <item>2D Fourier Transform</item>
+        <item>OpenCV Test</item>
     </string-array>
 </resources>
