@@ -55,8 +55,9 @@ public class BProcessor {
                 break;
             case 10:
                 Utils.bitmapToMat(bmp, mCurrentFrameMat);
-                //Imgproc.equalizeHist(mCurrentFrame, mNextFrame);
-                Imgproc.cvtColor(mCurrentFrameMat,mNextFrameMat,Imgproc.COLOR_RGBA2GRAY);
+                Imgproc.cvtColor(mCurrentFrameMat, mCurrentFrameMat, Imgproc.COLOR_RGBA2GRAY);
+                Imgproc.equalizeHist(mCurrentFrameMat, mNextFrameMat);
+                Imgproc.Canny(mCurrentFrameMat,mNextFrameMat,10,100,3,true);
                 Utils.matToBitmap(mNextFrameMat, modifiedBitmap);
                 break;
             default:
