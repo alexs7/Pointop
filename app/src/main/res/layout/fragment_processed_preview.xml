@@ -9,5 +9,6 @@
         android:id="@+id/processed_preview_img_view"
         android:background="@color/LimeGreen"
         android:layout_width="fill_parent"
+        android:scaleType="fitXY"
         android:layout_height="fill_parent" />
 </RelativeLayout>
