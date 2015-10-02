@@ -2,21 +2,22 @@ package com.apps.alexs7.pointop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.*;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.RenderScript;
 
 /**
- * Created by alex on 29/07/15.
+ * Created by alex on 02/10/15.
  */
-public class EdgeDetection {
+public class MedianTemplateOperator {
 
     private Allocation inAllocation;
     private Allocation outAllocation;
     private RenderScript mRS = null;
-    private ScriptC_edgedetect mScript = null;
+    private ScriptC_threshold mScript = null;
 
-    public EdgeDetection(Context ctx) {
+    public MedianTemplateOperator(Context ctx) {
         mRS = RenderScript.create(ctx);
-        mScript = new ScriptC_edgedetect(mRS, ctx.getResources(), R.raw.edgedetect);
+        mScript = new ScriptC_threshold(mRS, ctx.getResources(), R.raw.mediantemplate);
     }
 
     public Bitmap apply(Bitmap origBmp) {

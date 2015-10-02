@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.apps.alexs7.pointop.fragments.CleanPreviewFragment;
 
@@ -40,6 +41,8 @@ public class MainPreviewActivity extends Activity
 
         fragmentHelper.setupFragments();
         uiHelper.buildListWithChoices();
+
+        Toast.makeText(getApplicationContext(),"Tap preview to switch cameras", Toast.LENGTH_LONG).show();
     }
 
     @Override

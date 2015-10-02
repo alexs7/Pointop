@@ -15,6 +15,7 @@ public class BProcessor {
     private int function;
     private EdgeDetection edgeDetection;
     private FourierTransform fourierTransform;
+    private MedianTemplateOperator medianFilter;
     private GreyScale greyScale;
     private Threshold threshold;
     private Mat mCurrentFrameMat;
@@ -26,6 +27,7 @@ public class BProcessor {
         greyScale = new GreyScale(ctx);
         threshold = new Threshold(ctx);
         fourierTransform = new FourierTransform(ctx);
+        medianFilter =  new MedianTemplateOperator(ctx);
         mCurrentFrameMat = new Mat();
         mNextFrameMat = new Mat();
     }
@@ -47,13 +49,16 @@ public class BProcessor {
             case 4:
                 modifiedBitmap = threshold.apply(bmp);
                 break;
-            case 7:
+            case 5:
+                modifiedBitmap = medianFilter.apply(bmp);
+                break;
+            case 6:
                 modifiedBitmap = edgeDetection.apply(bmp);
                 break;
-            case 9:
+            case 7:
                 modifiedBitmap = fourierTransform.apply(bmp);
                 break;
-            case 10:
+            case 8:
                 Utils.bitmapToMat(bmp, mCurrentFrameMat);
                 Imgproc.cvtColor(mCurrentFrameMat, mCurrentFrameMat, Imgproc.COLOR_RGBA2GRAY);
                 Imgproc.equalizeHist(mCurrentFrameMat, mNextFrameMat);
