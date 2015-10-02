@@ -65,6 +65,9 @@ public class BProcessor {
                 Imgproc.Canny(mCurrentFrameMat,mNextFrameMat,10,100,3,true);
                 Utils.matToBitmap(mNextFrameMat, modifiedBitmap);
                 break;
+            case 9:
+                modifiedBitmap = threshold.applyAdaptiveThresholding(bmp);
+                break;
             default:
                 modifiedBitmap = bmp;
                 break;

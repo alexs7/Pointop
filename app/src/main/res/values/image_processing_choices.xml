@@ -12,5 +12,6 @@
         <!--<item>Rotation</item>-->
         <item>2D Fourier Transform</item>
         <item>OpenCV Test</item>
+        <item>Adaptive Thresholding</item>
     </string-array>
 </resources>
