@@ -56,7 +56,7 @@ public class BProcessor {
                 modifiedBitmap = edgeDetection.apply(bmp);
                 break;
             case 7:
-                modifiedBitmap = fourierTransform.apply(bmp);
+                //modifiedBitmap = fourierTransform.apply(bmp);
                 break;
             case 8:
                 Utils.bitmapToMat(bmp, mCurrentFrameMat);
