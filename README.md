@@ -1,4 +1,4 @@
-#Pointop - An android realtime processing app.
+# Pointop - An android realtime processing app.
 
 The purpose of this app development is purely for fun and educational reasons.
  
